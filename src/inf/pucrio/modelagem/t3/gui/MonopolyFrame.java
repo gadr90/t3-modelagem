@@ -1,5 +1,7 @@
 package inf.pucrio.modelagem.t3.gui;
 
+import inf.pucrio.modelagem.t3.utils.PositionUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -29,7 +31,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		super("0921720;0920523");
 		System.out.println("Initializing MonopolyFrame...");
 		//Graphic initialization
-		this.setSize(900, 700);
+		this.setSize(PositionUtils.BOARD_SIZE_PIXELS + 200, PositionUtils.BOARD_SIZE_PIXELS);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		buttonA = new JButton("Botão A");
@@ -54,8 +56,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		eastPanel.add(buttonB, BoxLayout.X_AXIS);
 		eastPanel.add(buttonA, BoxLayout.X_AXIS);
 		
-		centerPanel.setSize(700, 700);
-		eastPanel.setSize(200, 700);
+		centerPanel.setSize(PositionUtils.BOARD_SIZE_PIXELS, PositionUtils.BOARD_SIZE_PIXELS);
+		eastPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
 		
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(eastPanel, BorderLayout.EAST);
