@@ -1,9 +1,11 @@
 package inf.pucrio.modelagem.t3.gui;
 
+import inf.pucrio.modelagem.t3.Game;
+import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Observable;
@@ -11,8 +13,8 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MonopolyFrame extends JFrame implements Observer {
@@ -21,23 +23,24 @@ public class MonopolyFrame extends JFrame implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton buttonA;
-	private JButton buttonB;
-	private JLabel hours;
-	private JLabel minutes;
-	private JLabel colon;
+	private JButton diceButton;
+	//private JLabel hours;
+	//private JLabel minutes;
+	//private JLabel colon;
+	private Game game;
 	
-	public MonopolyFrame() {
+	public MonopolyFrame(Game game) {
 		super("0921720;0920523");
+		this.game = game;
+		this.game.addObserver(this);
 		System.out.println("Initializing MonopolyFrame...");
 		//Graphic initialization
 		this.setSize(PositionUtils.BOARD_SIZE_PIXELS + 200, PositionUtils.BOARD_SIZE_PIXELS);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		buttonA = new JButton("Botão A");
-		buttonA.addMouseListener(new ButtonAMouseListener());
-		buttonB = new JButton("Botão B");
-		buttonB.addMouseListener(new ButtonBMouseListener());
+		diceButton = new JButton("Jogar Dados");
+		diceButton.addMouseListener(new RollDiceButtonMouseListener());
+		/*
 		hours = new JLabel("00");
 		minutes = new JLabel("00");
 		colon = new JLabel(":");
@@ -45,16 +48,23 @@ public class MonopolyFrame extends JFrame implements Observer {
 		hours.setFont(font);
 		minutes.setFont(font);
 		colon.setFont(font);
+		*/
 		
 		JPanel centerPanel = new JPanel();
-		JPanel eastPanel = new JPanel();		
-
+		centerPanel.setLayout(null);
+		JPanel eastPanel = new JPanel();
+		
+		//Adiciona todos os players no tabuleiro representado pelo Panel
+		for (Player p : getGame().getPlayers()) {
+			centerPanel.add(p.getView());
+			p.getView().repaint();
+		}
+		/*
 		centerPanel.add(minutes, BoxLayout.X_AXIS);
 		centerPanel.add(colon, BoxLayout.X_AXIS);
 		centerPanel.add(hours, BoxLayout.X_AXIS);
-
-		eastPanel.add(buttonB, BoxLayout.X_AXIS);
-		eastPanel.add(buttonA, BoxLayout.X_AXIS);
+		 */
+		eastPanel.add(diceButton, BoxLayout.X_AXIS);
 		
 		centerPanel.setSize(PositionUtils.BOARD_SIZE_PIXELS, PositionUtils.BOARD_SIZE_PIXELS);
 		eastPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
@@ -63,19 +73,32 @@ public class MonopolyFrame extends JFrame implements Observer {
 		this.getContentPane().add(eastPanel, BorderLayout.EAST);
 		
 		this.setVisible(true);
-		System.out.println("Finished Initializing ClockFrame.");
+		System.out.println("Finished Initializing MonopolyFrame.");
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		System.out.println("Notified of update!");
+		Game game = this.getGame();
+		Player currentPlayer = game.getCurrentPlayer();
+		Point p = PositionUtils.getPositionForIndex(currentPlayer.getCurrentIndex(), game.getPlayers().indexOf(currentPlayer));
+		currentPlayer.getView().setBounds(p.x, p.y, 10, 10);
+		currentPlayer.getView().repaint();
 	}
 	
+	public Game getGame() {
+		return this.game;
+	}
 
-	class ButtonAMouseListener extends MouseAdapter {
+	class RollDiceButtonMouseListener extends MouseAdapter {
+		private Game getGame(MouseEvent e) {
+			return ((MonopolyFrame) ((JComponent) e.getComponent()).getTopLevelAncestor()).getGame();
+		}
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			System.out.println("Pressed button A");
+			System.out.println("Pressed roll dice button");
+			getGame(e).doTurn();
 		}
 		
 		@Override
@@ -84,17 +107,4 @@ public class MonopolyFrame extends JFrame implements Observer {
 		}
 	}
 	
-	class ButtonBMouseListener extends MouseAdapter {
-		@Override
-		public void mousePressed(MouseEvent e) {
-			System.out.println("Pressed button B");
-			super.mousePressed(e);
-		}
-		
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Released button B");
-			super.mouseReleased(e);
-		}
-	}
 }
