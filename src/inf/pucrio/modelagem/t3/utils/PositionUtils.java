@@ -10,8 +10,8 @@ public class PositionUtils {
 	
 	/**
 	 * Devolve as coordernadas X,Y de um player dentro de um tile.
-	 * @param index Índice do jogador
-	 * @param tileWidth Número de tiles horizontais
+	 * @param index ï¿½ndice do jogador
+	 * @param tileWidth Nï¿½mero de tiles horizontais
 	 */
 	public static Point playerCoordsInTile(int index, int tileWidth) {
 		return new Point(index % tileWidth, (int) Math.floor(index / tileWidth));
@@ -58,11 +58,11 @@ public class PositionUtils {
 	public static Point getPositionForIndex(int boardIndex, int playerIndex) {
 		Point tilePosition = PositionUtils.tileCoordsInBoard(boardIndex);
 		System.out.println("Tile position" + tilePosition);
-		Point positionInTile = PositionUtils.playerCoordsInTile(playerIndex, PositionUtils.getWidthForTile(0));
+		Point positionInTile = PositionUtils.playerCoordsInTile(playerIndex, PositionUtils.getWidthForTile(boardIndex));
 		System.out.println("Position in Tile " + positionInTile);
 		Point globalTilePosition = PositionUtils.relativeToGlobal(tilePosition);
 		System.out.println("Global tile position" + globalTilePosition);
-		Point globalPositionInTile = PositionUtils.tileRelativeToGlobal(positionInTile, PositionUtils.getWidthForTile(0));
+		Point globalPositionInTile = PositionUtils.tileRelativeToGlobal(positionInTile, PositionUtils.getWidthForTile(boardIndex));
 		System.out.println("Global position in tile" + globalPositionInTile);
 		int x = (int) (globalPositionInTile.getX() + globalTilePosition.getX());
 		int y = (int) (globalPositionInTile.getY() + globalTilePosition.getY());

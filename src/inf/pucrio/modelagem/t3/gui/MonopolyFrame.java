@@ -5,16 +5,22 @@ import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MonopolyFrame extends JFrame implements Observer {
@@ -59,6 +65,20 @@ public class MonopolyFrame extends JFrame implements Observer {
 			centerPanel.add(p.getView());
 			p.getView().repaint();
 		}
+		
+		//Desenhando tabuleiro
+		try {
+			Image image = ImageIO.read(new File("bancoimobiliario1.png")).getScaledInstance(650, 650, java.awt.Image.SCALE_SMOOTH);
+			ImageIcon icon = new ImageIcon(image);
+			JLabel picLabel = new JLabel(icon);
+			picLabel.setSize(650, 650);
+			picLabel.setVisible(true);
+			centerPanel.add(picLabel);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		/*
 		centerPanel.add(minutes, BoxLayout.X_AXIS);
 		centerPanel.add(colon, BoxLayout.X_AXIS);
