@@ -17,7 +17,6 @@ public class PositionUtils {
 		return new Point(index % tileWidth, (int) Math.floor(index / tileWidth));
 	}
 	
-	//TODO
 	public static Point tileCoordsInBoard(int index) {
 		if (index > 39) {
 			index -= 40;
@@ -31,7 +30,7 @@ public class PositionUtils {
 			return new Point((11 - index), 11);			
 		}
 		else if (index < 20) {
-			return new Point(0, 11 - (index - 11));
+			return new Point(0, 11 - (index - 10));
 		}
 		else if (index < 30) {
 			return new Point((index - 21) + 2, 0);			
@@ -57,20 +56,26 @@ public class PositionUtils {
 	
 	public static Point getPositionForIndex(int boardIndex, int playerIndex) {
 		Point tilePosition = PositionUtils.tileCoordsInBoard(boardIndex);
-		System.out.println("Tile position" + tilePosition);
 		Point positionInTile = PositionUtils.playerCoordsInTile(playerIndex, PositionUtils.getWidthForTile(boardIndex));
-		System.out.println("Position in Tile " + positionInTile);
 		Point globalTilePosition = PositionUtils.relativeToGlobal(tilePosition);
-		System.out.println("Global tile position" + globalTilePosition);
 		Point globalPositionInTile = PositionUtils.tileRelativeToGlobal(positionInTile, PositionUtils.getWidthForTile(boardIndex));
-		System.out.println("Global position in tile" + globalPositionInTile);
 		int x = (int) (globalPositionInTile.getX() + globalTilePosition.getX());
 		int y = (int) (globalPositionInTile.getY() + globalTilePosition.getY());
+		
+		System.out.println("Gerando posição para boardIndex: " + boardIndex );
+		System.out.println("Tile position" + tilePosition);
+		System.out.println("Position in Tile " + positionInTile);
+		System.out.println("Global tile position" + globalTilePosition);
+		System.out.println("Global position in tile" + globalPositionInTile);
 		System.out.println("Posicionando em " + x + ", " + y);
 		return new Point(x,y);
 	}
 
 	public static int getWidthForTile(int index) {
+		if (index > 39) {
+			index -= 40;
+		}
+		
 		if ( (index > 0 && index < 10) || (index > 20 && index < 30)) {
 			return 2;			
 		}
