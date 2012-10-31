@@ -36,21 +36,15 @@ public class PositionUtils {
 		return new Point(p.x * TILE_SIZE_PIXELS, p.y * TILE_SIZE_PIXELS);
 	}
 	
-	public static Point tileRelativeToGlobal(Point p, int width) {
-		if (width == 2) {
-			return new Point(p.x * 25, p.y * 33);			
-		}
-		else if (width == 3) {
-			return new Point(p.x * 33, p.y * 25);			
-		}
-		return null;
+	public static Point tileRelativeToGlobal(Point p) {
+		return new Point(p.x * TILE_SIZE_PIXELS/2, p.y * TILE_SIZE_PIXELS/2);			
 	}
 	
 	public static Point getPositionForIndex(int boardIndex, int playerIndex) {
 		Point tilePosition = PositionUtils.tileCoordsInBoard(boardIndex);
 		Point positionInTile = PositionUtils.playerCoordsInTile(playerIndex, PositionUtils.getWidthForTile(boardIndex));
 		Point globalTilePosition = PositionUtils.relativeToGlobal(tilePosition);
-		Point globalPositionInTile = PositionUtils.tileRelativeToGlobal(positionInTile, PositionUtils.getWidthForTile(boardIndex));
+		Point globalPositionInTile = PositionUtils.tileRelativeToGlobal(positionInTile);
 		int x = (int) (globalPositionInTile.getX() + globalTilePosition.getX());
 		int y = (int) (globalPositionInTile.getY() + globalTilePosition.getY());
 		

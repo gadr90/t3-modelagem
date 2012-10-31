@@ -19,6 +19,8 @@ public class Game extends Observable {
 	public static final int NUMBER_OF_PLAYERS = 6;
 	private int currentTurn = 1;
 	private int currentPlayerIndex = 0;
+	private int currentRoll1 = 0;
+	private int currentRoll2 = 0;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
 	
@@ -28,20 +30,20 @@ public class Game extends Observable {
 			Player player = new Player(c, "Player");
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
-			player.getView().setBounds(new Rectangle(p.x, p.y, 10, 10));
+			player.getView().setBounds(p.x, p.y, 20, 20);
 		}
 		
-		//TODO inicializar posicão das views dos players
+		//TODO inicializar posicï¿½o das views dos players
 	}
 
 	public void doTurn() {
 		System.out.println("Doing turn " + currentTurn + " for player " + currentPlayerIndex);
 		Player currentPlayer = getCurrentPlayer();
-		//TODO classe Dice que é responsável por rolar dados etc
-		int roll1 = (int) (Math.floor(Math.random() * 6 + 1));
-		int roll2 = (int) (Math.floor(Math.random() * 6 + 1));
-		//TODO checar se são iguais, aumentar contador no player, permitir outro roll.
-		int totalRoll = roll1 + roll2;
+		//TODO classe Dice que ï¿½ responsï¿½vel por rolar dados etc
+		currentRoll1 = (int) (Math.floor(Math.random() * 6 + 1));
+		currentRoll2 = (int) (Math.floor(Math.random() * 6 + 1));
+		//TODO checar se sï¿½o iguais, aumentar contador no player, permitir outro roll.
+		int totalRoll = currentRoll1 + currentRoll2;
 		//DEBUG
 		totalRoll = 1;
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() +  totalRoll );
@@ -90,5 +92,22 @@ public class Game extends Observable {
 	public Player getCurrentPlayer() {
 		return this.players.get(this.currentPlayerIndex);
 	}
+
+	public int getCurrentRoll1() {
+		return currentRoll1;
+	}
+
+	public void setCurrentRoll1(int currentRoll1) {
+		this.currentRoll1 = currentRoll1;
+	}
+
+	public int getCurrentRoll2() {
+		return currentRoll2;
+	}
+
+	public void setCurrentRoll2(int currentRoll2) {
+		this.currentRoll2 = currentRoll2;
+	}
+	
 	
 }
