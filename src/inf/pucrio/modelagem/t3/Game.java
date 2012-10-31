@@ -25,8 +25,10 @@ public class Game extends Observable {
 	
 	public Game() {
 		Color[] availableColors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.magenta, Color.RED, Color.YELLOW};
+		String[] colorNames = {"Azul", "Ciano", "Verde", "Magenta", "Vermelho", "Amarelo"};
+		int i = 0;
 		for (Color c : availableColors) {
-			Player player = new Player(c, "Player");
+			Player player = new Player(c, colorNames[i++]);
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);

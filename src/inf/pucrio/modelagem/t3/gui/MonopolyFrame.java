@@ -49,7 +49,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		
 		roll1 = new JLabel("Dado 1: ");
 		roll2 = new JLabel("Dado 2: ");
-		player = new JLabel("Jogador: " + game.getCurrentPlayerIndex());
+		player = new JLabel("Jogador: " + game.getCurrentPlayer().getPlayerName());
 		
 		/*Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
 		hours.setFont(font);
@@ -111,7 +111,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 //		currentPlayer.getView().repaint();
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
-		player.setText("Jogador: " + game.getCurrentPlayerIndex());
+		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
 	}
 	
 	public Game getGame() {
