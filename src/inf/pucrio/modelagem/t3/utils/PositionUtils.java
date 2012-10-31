@@ -26,18 +26,10 @@ public class PositionUtils {
 		if (index == 20) return new Point(0, 0);
 		if (index == 30) return new Point(11, 0);
 		
-		if (index < 10) {
-			return new Point((11 - index), 11);			
-		}
-		else if (index < 20) {
-			return new Point(0, 11 - (index - 10));
-		}
-		else if (index < 30) {
-			return new Point((index - 21) + 2, 0);			
-		}
-		else {
-			return new Point(11, (index - 31) + 2);			
-		}
+		if (index < 10) return new Point((11 - index), 11);			
+		if (index < 20) return new Point(0, 11 - (index - 10));
+		if (index < 30) return new Point((index - 21) + 2, 0);
+		return new Point(11, (index - 31) + 2);			
 	}
 	
 	public static Point relativeToGlobal(Point p) {
