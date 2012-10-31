@@ -32,7 +32,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JButton diceButton;
 	private JLabel roll1;
 	private JLabel roll2;
-	//private JLabel colon;
+	private JLabel player;
 	private Game game;
 	
 	public MonopolyFrame(Game game) {
@@ -47,19 +47,19 @@ public class MonopolyFrame extends JFrame implements Observer {
 		diceButton = new JButton("Jogar Dados");
 		diceButton.addMouseListener(new RollDiceButtonMouseListener());
 		
-		roll1 = new JLabel("");
-		roll2 = new JLabel("");
-		/*
-		colon = new JLabel(":");
-		Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
+		roll1 = new JLabel("Dado 1: ");
+		roll2 = new JLabel("Dado 2: ");
+		player = new JLabel("Jogador: " + game.getCurrentPlayerIndex());
+		
+		/*Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
 		hours.setFont(font);
 		minutes.setFont(font);
 		colon.setFont(font);
 		*/
 		
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(null);
+		JPanel centerPanel = new JPanel(null);
 		JPanel eastPanel = new JPanel();
+		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 		
 		//Adiciona todos os players no tabuleiro representado pelo Panel
 		for (Player p : getGame().getPlayers()) {
@@ -85,15 +85,17 @@ public class MonopolyFrame extends JFrame implements Observer {
 		centerPanel.add(colon, BoxLayout.X_AXIS);
 		centerPanel.add(hours, BoxLayout.X_AXIS);
 		 */
-		eastPanel.add(diceButton, BoxLayout.X_AXIS);
-		eastPanel.add(roll1, BoxLayout.X_AXIS);
-		eastPanel.add(roll2, BoxLayout.X_AXIS);
 		
 		centerPanel.setSize(PositionUtils.BOARD_SIZE_PIXELS, PositionUtils.BOARD_SIZE_PIXELS);
 		eastPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
 		
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(eastPanel, BorderLayout.EAST);
+
+		eastPanel.add(diceButton);
+		eastPanel.add(roll1);
+		eastPanel.add(roll2);
+		eastPanel.add(player);
 		
 		this.setVisible(true);
 		System.out.println("Finished Initializing MonopolyFrame.");
@@ -103,12 +105,13 @@ public class MonopolyFrame extends JFrame implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		System.out.println("Notified of update!");
 		Game game = this.getGame();
-		Player currentPlayer = game.getCurrentPlayer();
-		Point p = PositionUtils.getPositionForIndex(currentPlayer.getCurrentIndex(), game.getPlayers().indexOf(currentPlayer));
-		currentPlayer.getView().setBounds(p.x, p.y, 20, 20);
+		Player lastPlayer = game.getLastPlayer();
+		Point p = PositionUtils.getPositionForIndex(lastPlayer.getCurrentIndex(), game.getPlayers().indexOf(lastPlayer));
+		lastPlayer.getView().setBounds(p.x, p.y, 20, 20);
 //		currentPlayer.getView().repaint();
-		roll1.setText(String.valueOf(game.getCurrentRoll1()));
-		roll2.setText(String.valueOf(game.getCurrentRoll2()));
+		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
+		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
+		player.setText("Jogador: " + game.getCurrentPlayerIndex());
 	}
 	
 	public Game getGame() {

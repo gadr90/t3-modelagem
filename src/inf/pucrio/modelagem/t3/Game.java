@@ -5,7 +5,6 @@ import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -32,8 +31,6 @@ public class Game extends Observable {
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);
 		}
-		
-		//TODO inicializar posic�o das views dos players
 	}
 
 	public void doTurn() {
@@ -45,16 +42,16 @@ public class Game extends Observable {
 		//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
 		int totalRoll = currentRoll1 + currentRoll2;
 		//DEBUG
-		totalRoll = 1;
-		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() +  totalRoll );
-		
-		setChanged();
-		notifyObservers();
+		//totalRoll = 1;
+		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
 
 		currentTurn++;
 		currentPlayerIndex++;
 		if (currentPlayerIndex > 5)
 			currentPlayerIndex = 0;
+		
+		setChanged();
+		notifyObservers();
 	}
 
 	public int getCurrentTurn() {
@@ -91,6 +88,10 @@ public class Game extends Observable {
 
 	public Player getCurrentPlayer() {
 		return this.players.get(this.currentPlayerIndex);
+	}
+	
+	public Player getLastPlayer() {
+		return this.players.get(this.currentPlayerIndex > 0 ? this.currentPlayerIndex - 1 : 5);
 	}
 
 	public int getCurrentRoll1() {

@@ -10,8 +10,8 @@ public class PositionUtils {
 	
 	/**
 	 * Devolve as coordernadas X,Y de um player dentro de um tile.
-	 * @param index �ndice do jogador
-	 * @param tileWidth N�mero de tiles horizontais
+	 * @param index índice do jogador
+	 * @param tileWidth Número de tiles horizontais
 	 */
 	public static Point playerCoordsInTile(int index, int tileWidth) {
 		return new Point(index % tileWidth, (int) Math.floor(index / tileWidth));
@@ -29,7 +29,7 @@ public class PositionUtils {
 		if (index < 10) return new Point((11 - index), 11);			
 		if (index < 20) return new Point(0, 11 - (index - 10));
 		if (index < 30) return new Point((index - 21) + 2, 0);
-		return new Point(11, (index - 31) + 2);			
+		return new Point(11, (index - 31) + 2);	
 	}
 	
 	public static Point relativeToGlobal(Point p) {
