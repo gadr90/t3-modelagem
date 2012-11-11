@@ -44,7 +44,7 @@ public class Game extends Observable {
 		//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
 		int totalRoll = currentRoll1 + currentRoll2;
 		//DEBUG
-		//totalRoll = 1;
+		totalRoll = 1;
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
 
 		currentTurn++;

@@ -98,10 +98,11 @@ public class PositionUtils {
         int w = size.width - insets.left - insets.right;
         int h = size.height - insets.top - insets.bottom;
          
-        for(int i=0; i<w; i=i+TILE_SIZE_PIXELS)
+        for(int i=100; i<w - TILE_SIZE_PIXELS; i=i+TILE_SIZE_PIXELS)
         {
             g2d.drawLine(0, i, BOARD_SIZE_PIXELS, i);
             g2d.drawLine(i, 0, i, BOARD_SIZE_PIXELS);
         }
+        g2d.clearRect(100, 100, 450, 450);
 	}
 }
