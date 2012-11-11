@@ -73,7 +73,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		// Desenhando tabuleiro
 		try {
-			Image image = ImageIO.read(new File("bancoimobiliario1.png"))
+			Image image = ImageIO.read(new File("tabuleiro.jpg"))
 					.getScaledInstance(650, 650, java.awt.Image.SCALE_SMOOTH);
 			ImageIcon icon = new ImageIcon(image);
 			JLabel picLabel = new JLabel(icon) {
