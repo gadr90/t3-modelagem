@@ -11,11 +11,13 @@ public class Player {
 	private int doubleRollsThisTurn = 0;
 	private Color color;
 	private String playerName;
+	private int money;
 	
 	public Player(Color color, String playerName) {
 		this.color = color;
 		this.view = new PlayerView(color);
 		this.playerName = playerName;
+		this.money = 8*1 + 10*5 + 10*10 + 10*50 + 8*100 + 2*500;
 	}
 
 	public PlayerView getView() {
@@ -56,6 +58,10 @@ public class Player {
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
+	}
+
+	public void addDoubleRoll() {
+		this.doubleRollsThisTurn++;		
 	}
 
 }

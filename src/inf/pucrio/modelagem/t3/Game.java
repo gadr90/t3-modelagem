@@ -18,8 +18,7 @@ public class Game extends Observable {
 	public static final int NUMBER_OF_PLAYERS = 6;
 	private int currentTurn = 1;
 	private int currentPlayerIndex = 0;
-	private int currentRoll1 = 0;
-	private int currentRoll2 = 0;
+	private Dice dice = new Dice();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
 	
@@ -38,11 +37,12 @@ public class Game extends Observable {
 	public void doTurn() {
 		System.out.println("Doing turn " + currentTurn + " for player " + currentPlayerIndex);
 		Player currentPlayer = getCurrentPlayer();
-		//TODO classe Dice que � respons�vel por rolar dados etc
-		currentRoll1 = (int) (Math.floor(Math.random() * 6 + 1));
-		currentRoll2 = (int) (Math.floor(Math.random() * 6 + 1));
+		dice.roll();
 		//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
-		int totalRoll = currentRoll1 + currentRoll2;
+		if (dice.isDoubleRoll) {
+			currentPlayer.addDoubleRoll();
+		}
+		int totalRoll = dice.currentRollTotal;
 		//DEBUG
 		totalRoll = 1;
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
@@ -97,20 +97,11 @@ public class Game extends Observable {
 	}
 
 	public int getCurrentRoll1() {
-		return currentRoll1;
-	}
-
-	public void setCurrentRoll1(int currentRoll1) {
-		this.currentRoll1 = currentRoll1;
+		return dice.currentRoll1;
 	}
 
 	public int getCurrentRoll2() {
-		return currentRoll2;
-	}
-
-	public void setCurrentRoll2(int currentRoll2) {
-		this.currentRoll2 = currentRoll2;
-	}
-	
+		return dice.currentRoll2;
+	}	
 	
 }
