@@ -1,6 +1,8 @@
 package inf.pucrio.modelagem.t3;
 
 
+import inf.pucrio.modelagem.t3.tile.MonopolyTile;
+import inf.pucrio.modelagem.t3.utils.BoardBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.Color;
@@ -20,21 +22,27 @@ public class Game extends Observable {
 	private int currentPlayerIndex = 0;
 	private Dice dice = new Dice();
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private ArrayList<BoardTile> tiles = new ArrayList<BoardTile>();
+	private ArrayList<MonopolyTile> tiles;
+	private String playerMessage;
 	
 	public Game() {
+		//Todas as cores disponíveis para os usuários
 		Color[] availableColors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.magenta, Color.RED, Color.YELLOW};
 		String[] colorNames = {"Azul", "Ciano", "Verde", "Magenta", "Vermelho", "Amarelo"};
 		int i = 0;
+		//Adiciona os players
 		for (Color c : availableColors) {
 			Player player = new Player(c, colorNames[i++]);
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);
 		}
+		
+		//Constrói o tabuleiro
+		tiles = BoardBuilder.buildTiles(this);
 	}
 
-	public void doTurn() {
+	public void nextTurn() {
 		System.out.println("Doing turn " + currentTurn + " for player " + currentPlayerIndex);
 		Player currentPlayer = getCurrentPlayer();
 		dice.roll();
@@ -80,11 +88,11 @@ public class Game extends Observable {
 		this.players = players;
 	}
 
-	public ArrayList<BoardTile> getTiles() {
+	public ArrayList<MonopolyTile> getTiles() {
 		return tiles;
 	}
 
-	public void setTiles(ArrayList<BoardTile> tiles) {
+	public void setTiles(ArrayList<MonopolyTile> tiles) {
 		this.tiles = tiles;
 	}
 
@@ -102,6 +110,14 @@ public class Game extends Observable {
 
 	public int getCurrentRoll2() {
 		return dice.currentRoll2;
+	}
+
+	public String getPlayerMessage() {
+		return playerMessage;
+	}
+
+	public void setPlayerMessage(String playerMessage) {
+		this.playerMessage = playerMessage;
 	}	
 	
 }

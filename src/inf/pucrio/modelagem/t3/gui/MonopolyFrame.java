@@ -32,6 +32,10 @@ public class MonopolyFrame extends JFrame implements Observer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton diceButton;
+	private JButton buy;
+	private JButton drawCard;
+	private JButton buildHouse;
+	private JButton buildHotel;
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
@@ -144,7 +148,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed roll dice button");
-			getGame(e).doTurn();
+			getGame(e).nextTurn();
 		}
 
 		@Override
