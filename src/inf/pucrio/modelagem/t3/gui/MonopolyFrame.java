@@ -32,10 +32,10 @@ public class MonopolyFrame extends JFrame implements Observer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton diceButton;
-	private JButton buy;
-	private JButton drawCard;
-	private JButton buildHouse;
-	private JButton buildHotel;
+	private JButton buyButton;
+	private JButton drawCardButton;
+	private JButton buildHouseButton;
+	private JButton buildHotelButton;
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
@@ -54,6 +54,10 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		diceButton = new JButton("Jogar Dados");
 		diceButton.addMouseListener(new RollDiceButtonMouseListener());
+		buyButton = new JButton("Comprar");
+		buyButton.addMouseListener(new BuyTerrainButtonMouseListener());
+		drawCardButton = new JButton("Tirar carta");
+		drawCardButton.addMouseListener(new DrawCardButtonMouseListener());
 
 		roll1 = new JLabel("Dado 1: ");
 		roll2 = new JLabel("Dado 2: ");
@@ -115,6 +119,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		eastPanel.add(roll2);
 		eastPanel.add(player);
 		eastPanel.add(playerMoney);
+		eastPanel.add(buyButton);
+		eastPanel.add(drawCardButton);
 
 		this.setVisible(true);
 		System.out.println("Finished Initializing MonopolyFrame.");
@@ -154,6 +160,40 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			System.out.println("Released button A");
+		}
+	}
+	
+	class BuyTerrainButtonMouseListener extends MouseAdapter {
+		private Game getGame(MouseEvent e) {
+			return ((MonopolyFrame) ((JComponent) e.getComponent())
+					.getTopLevelAncestor()).getGame();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			System.out.println("Pressed buy terrain button");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			System.out.println("Released button");
+		}
+	}
+	
+	class DrawCardButtonMouseListener extends MouseAdapter {
+		private Game getGame(MouseEvent e) {
+			return ((MonopolyFrame) ((JComponent) e.getComponent())
+					.getTopLevelAncestor()).getGame();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			System.out.println("Pressed draw card button");
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			System.out.println("Released button");
 		}
 	}
 
