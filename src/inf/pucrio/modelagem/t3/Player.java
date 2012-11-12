@@ -8,7 +8,7 @@ public class Player {
 	
 	private PlayerView view;
 	private int currentIndex = 0;
-	private int doubleRollsThisTurn = 0;
+	private int doubleRolls = 0;
 	private Color color;
 	private String playerName;
 	private int money;
@@ -37,11 +37,11 @@ public class Player {
 	}
 
 	public int getDoubleRollsThisTurn() {
-		return doubleRollsThisTurn;
+		return doubleRolls;
 	}
 
 	public void setDoubleRollsThisTurn(int doubleRollsThisTurn) {
-		this.doubleRollsThisTurn = doubleRollsThisTurn;
+		this.doubleRolls = doubleRollsThisTurn;
 	}
 
 	public Color getColor() {
@@ -61,7 +61,15 @@ public class Player {
 	}
 
 	public void addDoubleRoll() {
-		this.doubleRollsThisTurn++;		
+		this.doubleRolls++;		
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 
 }

@@ -35,6 +35,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
+	private JLabel playerMoney;
 	private Game game;
 
 	public MonopolyFrame(Game game) {
@@ -54,6 +55,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll2 = new JLabel("Dado 2: ");
 		player = new JLabel("Jogador: "
 				+ game.getCurrentPlayer().getPlayerName());
+		playerMoney = new JLabel("Dinheiro: R$ "
+				+ game.getCurrentPlayer().getMoney());
 
 		/*
 		 * Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
@@ -107,6 +110,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		eastPanel.add(roll1);
 		eastPanel.add(roll2);
 		eastPanel.add(player);
+		eastPanel.add(playerMoney);
 
 		this.setVisible(true);
 		System.out.println("Finished Initializing MonopolyFrame.");
