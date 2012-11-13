@@ -13,4 +13,6 @@ public class MoneyTile extends MonopolyTile {
 		this.winMoney = winMoney;
 	}
 	
+	// TODO: Tratar que no tale de partida no começo da partida ninguém ganha 200, só quando passa por ele completando uma volta completa no tabuleiro. Não há necessidade de parar na casa, ganha quem passa por ela.
+	
 }
