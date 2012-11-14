@@ -2,7 +2,6 @@ package inf.pucrio.modelagem.t3.utils;
 
 import inf.pucrio.modelagem.t3.card.LuckCard;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -47,33 +46,33 @@ public class DeckBuilder {
 
 		
 		/* Cartas de revés */
-		card = new LuckCard(false, false, 15, "Revés:\n Um amigo pediu-lhe um empréstimo. Você não pode recusar.");
+		card = new LuckCard(false, false, -15, "Revés:\n Um amigo pediu-lhe um empréstimo. Você não pode recusar.");
 		deck.add(card);
-		card = new LuckCard(false, false, 25, "Revés:\n Você vai casar e está comprando um apartamento novo.");
+		card = new LuckCard(false, false, -25, "Revés:\n Você vai casar e está comprando um apartamento novo.");
 		deck.add(card);
-		card = new LuckCard(false, false, 45, "Revés:\n O médico lhe recomendou repouso num bom hotel de montanha.");
+		card = new LuckCard(false, false, -45, "Revés:\n O médico lhe recomendou repouso num bom hotel de montanha.");
 		deck.add(card);
-		card = new LuckCard(false, false, 30, "Revés:\n Você achou interessante assistir à estréia da temporada de ballet. Compre os ingressos.");
+		card = new LuckCard(false, false, -30, "Revés:\n Você achou interessante assistir à estréia da temporada de ballet. Compre os ingressos.");
 		deck.add(card);
-		card = new LuckCard(false, false, 100, "Revés:\n Parabéns! Você convidou seus amigos para festejar o aniversário.");
+		card = new LuckCard(false, false, -100, "Revés:\n Parabéns! Você convidou seus amigos para festejar o aniversário.");
 		deck.add(card);
-		card = new LuckCard(false, false, 100, "Revés:\n Você é papai outra vez! Despesas de maternidade.");
+		card = new LuckCard(false, false, -100, "Revés:\n Você é papai outra vez! Despesas de maternidade.");
 		deck.add(card);
-		card = new LuckCard(false, false, 40, "Revés:\n Papai, os livros do ano passado não servem mais. Preciso de livros novos.");
+		card = new LuckCard(false, false, -40, "Revés:\n Papai, os livros do ano passado não servem mais. Preciso de livros novos.");
 		deck.add(card);
-		card = new LuckCard(false, false, 30, "Revés:\n Você estacionou seu carro em um lugar proibido e entrou na contra mão.");
+		card = new LuckCard(false, false, -30, "Revés:\n Você estacionou seu carro em um lugar proibido e entrou na contra mão.");
 		deck.add(card);
-		card = new LuckCard(false, false, 50, "Revés:\n Você acaba de receber a comunicação do Imposto de Renda.");
+		card = new LuckCard(false, false, -50, "Revés:\n Você acaba de receber a comunicação do Imposto de Renda.");
 		deck.add(card);
-		card = new LuckCard(false, false, 25, "Revés:\n Seu clube está ampliando as piscinas. Os sócios devem contribuir.");
+		card = new LuckCard(false, false, -25, "Revés:\n Seu clube está ampliando as piscinas. Os sócios devem contribuir.");
 		deck.add(card);
-		card = new LuckCard(false, false, 30, "Revés:\n Renove a tempo a licença do seu automóvel.");
+		card = new LuckCard(false, false, -30, "Revés:\n Renove a tempo a licença do seu automóvel.");
 		deck.add(card);
-		card = new LuckCard(false, false, 45, "Revés:\n Seus parentes do interior vieram passar umas "férias" na sua casa.");
+		card = new LuckCard(false, false, -45, "Revés:\n Seus parentes do interior vieram passar umas \"férias\" na sua casa.");
 		deck.add(card);
-		card = new LuckCard(false, false, 50, "Revés:\n Seus filhos já vão para a escola. Pague a primeira mensalidade.");
+		card = new LuckCard(false, false, -50, "Revés:\n Seus filhos já vão para a escola. Pague a primeira mensalidade.");
 		deck.add(card);
-		card = new LuckCard(false, false, 50, "Revés:\n A geada prejudicou a sua safra de café.");
+		card = new LuckCard(false, false, -50, "Revés:\n A geada prejudicou a sua safra de café.");
 		deck.add(card);
 
 		
