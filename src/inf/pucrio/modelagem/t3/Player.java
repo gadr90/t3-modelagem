@@ -3,6 +3,7 @@ package inf.pucrio.modelagem.t3;
 import java.awt.Color;
 
 import inf.pucrio.modelagem.t3.gui.PlayerView;
+import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 
 public class Player {
 	
@@ -12,12 +13,14 @@ public class Player {
 	private Color color;
 	private String playerName;
 	private int money;
+	private Game game;
 	
-	public Player(Color color, String playerName) {
+	public Player(Color color, String playerName, Game game) {
 		this.color = color;
 		this.view = new PlayerView(color);
 		this.playerName = playerName;
 		this.money = 8*1 + 10*5 + 10*10 + 10*50 + 8*100 + 2*500;
+		this.game = game;
 	}
 
 	public PlayerView getView() {
@@ -33,6 +36,9 @@ public class Player {
 	}
 
 	public void setCurrentIndex(int currentIndex) {
+		if (currentIndex > 39) {
+			currentIndex -= 40;
+		}
 		this.currentIndex = currentIndex;
 	}
 
@@ -70,6 +76,11 @@ public class Player {
 
 	public void setMoney(int money) {
 		this.money = money;
+	}
+	
+	public MonopolyTile getCurrentTile() {
+		System.out.println(this.currentIndex);
+		return this.game.getTiles().get(this.currentIndex);
 	}
 
 }

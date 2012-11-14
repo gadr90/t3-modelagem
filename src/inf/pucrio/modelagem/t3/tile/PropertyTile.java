@@ -42,5 +42,9 @@ public class PropertyTile extends OwnableTile implements ITaxableTile {
 	public void collectTax(Player player) {
 		// TODO: Checar número de construções e cobrar de acordo com respectivo valor
 	}
+	
+	public void buy(Player player) {
+		
+	}
 
 }

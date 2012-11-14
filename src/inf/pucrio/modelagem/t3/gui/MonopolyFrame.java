@@ -40,6 +40,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel roll2;
 	private JLabel player;
 	private JLabel playerMoney;
+	private JLabel playerTile;
 	private Game game;
 
 	public MonopolyFrame(Game game) {
@@ -65,6 +66,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 				+ game.getCurrentPlayer().getPlayerName());
 		playerMoney = new JLabel("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
+		playerTile = new JLabel("Casa atual: "
+				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
 
 		/*
 		 * Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
@@ -119,6 +122,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		eastPanel.add(roll2);
 		eastPanel.add(player);
 		eastPanel.add(playerMoney);
+		eastPanel.add(playerTile);
 		eastPanel.add(buyButton);
 		eastPanel.add(drawCardButton);
 
@@ -130,15 +134,37 @@ public class MonopolyFrame extends JFrame implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		System.out.println("Notified of update!");
 		Game game = this.getGame();
-		Player lastPlayer = game.getLastPlayer();
 		Point p = PositionUtils.getPositionForIndex(
-				lastPlayer.getCurrentIndex(),
-				game.getPlayers().indexOf(lastPlayer));
-		lastPlayer.getView().setBounds(p.x, p.y, 20, 20);
-		// currentPlayer.getView().repaint();
+				game.getCurrentPlayer().getCurrentIndex(),
+				game.getPlayers().indexOf(game.getCurrentPlayer()));
+		game.getCurrentPlayer().getView().setBounds(p.x, p.y, 20, 20);
+
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
+		playerTile.setText("Casa atual: "
+				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
+		
+		if (game.isTurnStarted()) {
+			this.diceButton.setEnabled(false);
+		}
+		else {
+			this.diceButton.setEnabled(true);
+		}
+		
+		if (game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("PropertyTile")
+			|| game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("CompanyTile")) {
+			this.drawCardButton.setEnabled(false);
+			this.buyButton.setEnabled(true);
+		}
+		else if (game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("LuckTile")) {
+			this.drawCardButton.setEnabled(true);
+			this.buyButton.setEnabled(false);
+		}
+		else {
+			this.drawCardButton.setEnabled(false);
+			this.buyButton.setEnabled(false);			
+		}
 	}
 
 	public Game getGame() {
@@ -154,7 +180,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed roll dice button");
-			getGame(e).nextTurn();
+			getGame(e).startTurn();
 		}
 
 		@Override
@@ -172,6 +198,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed buy terrain button");
+			getGame(e).finishTurn();
 		}
 
 		@Override
@@ -189,6 +216,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed draw card button");
+			getGame(e).finishTurn();			
 		}
 
 		@Override

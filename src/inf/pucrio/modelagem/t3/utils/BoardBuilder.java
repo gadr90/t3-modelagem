@@ -2,6 +2,7 @@ package inf.pucrio.modelagem.t3.utils;
 
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.tile.CompanyTile;
+import inf.pucrio.modelagem.t3.tile.FreeStopTile;
 import inf.pucrio.modelagem.t3.tile.LuckTile;
 import inf.pucrio.modelagem.t3.tile.MoneyTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
@@ -10,11 +11,13 @@ import inf.pucrio.modelagem.t3.tile.PropertyTile;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BoardBuilder {
 
 	public static ArrayList<MonopolyTile> buildTiles(Game game) {
-		ArrayList<MonopolyTile> tiles = new ArrayList<>();
+		ArrayList<MonopolyTile> tiles = new ArrayList<MonopolyTile>();
 		MoneyTile startTile;
 		MoneyTile loseMoneyTile;
 		MoneyTile winMoneyTile;
@@ -23,6 +26,7 @@ public class BoardBuilder {
 		LuckTile luckTile;
 		PrisonTile prisonTile;
 		PrisonTile goToPrisonTile;
+		FreeStopTile freeStopTile;
 
 		/* Tile de ponto de partida */
 		startTile = new MoneyTile(0, game, 200, false);
@@ -117,6 +121,16 @@ public class BoardBuilder {
 		/* Tiles de impostos */
 		loseMoneyTile = new MoneyTile(24, game, 200, false);
 		tiles.add(loseMoneyTile);
+		
+		/* Tile de Parada livre */
+		freeStopTile = new FreeStopTile(20, game);
+		tiles.add(freeStopTile);
+		
+		Collections.sort(tiles, new Comparator<MonopolyTile>() {
+	        @Override public int compare(MonopolyTile t1, MonopolyTile t2) {
+	            return t1.getIndex() - t2.getIndex();
+	        }
+	    });
 		
 		return tiles;		
 	}

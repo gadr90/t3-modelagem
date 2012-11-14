@@ -24,6 +24,7 @@ public class Game extends Observable {
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<MonopolyTile> tiles;
 	private String playerMessage;
+	private boolean turnStarted = false;
 	
 	public Game() {
 		//Todas as cores disponÃ­veis para os usuÃ¡rios
@@ -32,7 +33,7 @@ public class Game extends Observable {
 		int i = 0;
 		//Adiciona os players
 		for (Color c : availableColors) {
-			Player player = new Player(c, colorNames[i++]);
+			Player player = new Player(c, colorNames[i++], this);
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);
@@ -42,8 +43,9 @@ public class Game extends Observable {
 		tiles = BoardBuilder.buildTiles(this);
 	}
 
-	public void nextTurn() {
-		System.out.println("Doing turn " + currentTurn + " for player " + currentPlayerIndex);
+	public void startTurn() {
+		System.out.println("Starting turn " + currentTurn + " for player " + currentPlayerIndex);
+		this.turnStarted = true;
 		Player currentPlayer = getCurrentPlayer();
 		dice.roll();
 		//TODO checar se sï¿½o iguais, aumentar contador no player, permitir outro roll.
@@ -52,10 +54,32 @@ public class Game extends Observable {
 		}
 		int totalRoll = dice.currentRollTotal;
 		//DEBUG
-		totalRoll = 1;
+		//totalRoll = 1;
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
-
 		currentTurn++;
+		setChanged();
+		notifyObservers();
+		
+		//TODO Melhorar a logica de qual tile o player está
+		if ("FreeStopTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+			System.out.println("Caiu em tile sem ação");
+			finishTurn();
+		}
+		else if ("PrisonTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+			System.out.println("Caiu em tile sem ação");
+			finishTurn();
+		}
+		else if ("MoneyTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+			System.out.println("Caiu em tile sem ação");
+			finishTurn();
+		}
+
+	}
+	
+	public void finishTurn() {
+		System.out.println("Finishing turn " + currentTurn + " for player " + currentPlayerIndex);
+		this.turnStarted = false;
+
 		currentPlayerIndex++;
 		if (currentPlayerIndex > 5)
 			currentPlayerIndex = 0;
@@ -118,6 +142,14 @@ public class Game extends Observable {
 
 	public void setPlayerMessage(String playerMessage) {
 		this.playerMessage = playerMessage;
-	}	
+	}
+
+	public boolean isTurnStarted() {
+		return turnStarted;
+	}
+
+	public void setTurnStarted(boolean turnStarted) {
+		this.turnStarted = turnStarted;
+	}
 	
 }
