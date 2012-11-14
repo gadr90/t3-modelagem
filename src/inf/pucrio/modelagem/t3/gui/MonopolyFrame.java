@@ -198,6 +198,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed buy terrain button");
+			Player player = getGame(e).getCurrentPlayer();
+			// TODO pegar o currentTile, converter para OwnableTile, chamar buy.
 			getGame(e).finishTurn();
 		}
 
@@ -216,6 +218,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			System.out.println("Pressed draw card button");
+			// TODO mostrar carta drawn
 			getGame(e).finishTurn();			
 		}
 

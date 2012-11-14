@@ -44,7 +44,8 @@ public class PropertyTile extends OwnableTile implements ITaxableTile {
 	}
 	
 	public void buy(Player player) {
-		
+		this.owner = player;
+		player.reduceMoney(this.saleValue);
 	}
 
 }

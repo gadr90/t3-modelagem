@@ -20,5 +20,10 @@ public class CompanyTile extends OwnableTile implements ITaxableTile {
 		// TODO: Multiplicar número tirado nos dados pelo rentalValueFactor
 		
 	}
+	
+	public void buy(Player player) {
+		this.owner = player;
+		player.reduceMoney(this.saleValue);
+	}
 
 }

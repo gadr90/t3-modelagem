@@ -5,7 +5,7 @@ import inf.pucrio.modelagem.t3.Player;
 
 public class OwnableTile extends MonopolyTile {
 	
-	private Player owner;
+	protected Player owner;
 
 	public OwnableTile(int index, Game game, Player owner) {
 		super(index, game);

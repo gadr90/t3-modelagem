@@ -83,4 +83,8 @@ public class Player {
 		return this.game.getTiles().get(this.currentIndex);
 	}
 
+	public void reduceMoney(int value) {
+		this.money -= value;
+	}
+
 }
