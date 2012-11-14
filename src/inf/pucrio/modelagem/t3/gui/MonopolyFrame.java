@@ -1,6 +1,7 @@
 package inf.pucrio.modelagem.t3.gui;
 
 import inf.pucrio.modelagem.t3.Game;
+import inf.pucrio.modelagem.t3.Main;
 import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.tile.OwnableTile;
@@ -11,6 +12,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -58,13 +61,13 @@ public class MonopolyFrame extends JFrame implements Observer {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		diceButton = new JButton("Jogar Dados");
-		diceButton.addMouseListener(new RollDiceButtonMouseListener());
+		diceButton.addActionListener(new RollDiceButtonActionListener());
 		buyButton = new JButton("Comprar");
-		buyButton.addMouseListener(new BuyTerrainButtonMouseListener());
+		buyButton.addActionListener(new BuyTerrainButtonActionListener());
 		drawCardButton = new JButton("Tirar carta");
-		drawCardButton.addMouseListener(new DrawCardButtonMouseListener());
+		drawCardButton.addActionListener(new DrawCardButtonActionListener());
 		finishTurnButton = new JButton("Finalizar turno");
-		finishTurnButton.addMouseListener(new FinishTurnButtonMouseListener());
+		finishTurnButton.addActionListener(new FinishTurnButtonActionListener());
 
 		roll1 = new JLabel("Dado 1: ");
 		roll2 = new JLabel("Dado 2: ");
@@ -184,98 +187,57 @@ public class MonopolyFrame extends JFrame implements Observer {
 		return this.game;
 	}
 
-	class RollDiceButtonMouseListener extends MouseAdapter {
-		private Game getGame(MouseEvent e) {
-			return ((MonopolyFrame) ((JComponent) e.getComponent())
-					.getTopLevelAncestor()).getGame();
-		}
-
+	class RollDiceButtonActionListener implements ActionListener {
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			if (!diceButton.isEnabled())
 				return;
 			
 			System.out.println("Pressed roll dice button");
-			getGame(e).startTurn();
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Released button A");
+			Main.game.startTurn();			
 		}
 	}
 	
-	class BuyTerrainButtonMouseListener extends MouseAdapter {
-		private Game getGame(MouseEvent e) {
-			return ((MonopolyFrame) ((JComponent) e.getComponent())
-					.getTopLevelAncestor()).getGame();
-		}
-
+	class BuyTerrainButtonActionListener implements ActionListener {
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			if (!buyButton.isEnabled())
 				return;
 			
 			System.out.println("Pressed buy terrain button");
-			Player player = getGame(e).getCurrentPlayer();
+			Player player = Main.game.getCurrentPlayer();
 			OwnableTile tile = ((OwnableTile) player.getCurrentTile());
 			tile.buy(player);
 		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Released button");
-		}
 	}
 	
-	class DrawCardButtonMouseListener extends MouseAdapter {
-		private Game getGame(MouseEvent e) {
-			return ((MonopolyFrame) ((JComponent) e.getComponent())
-					.getTopLevelAncestor()).getGame();
-		}
-
+	class DrawCardButtonActionListener implements ActionListener {
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			if (!drawCardButton.isEnabled())
 				return;
 			
 			System.out.println("Pressed draw card button");
 			// TODO mostrar carta drawn
-			LuckCard card = getGame(e).getLuckDeck().poll();
+			LuckCard card = Main.game.getLuckDeck().poll();
 			if (card.getValue() != 0) {
-				getGame(e).getCurrentPlayer().addMoney(card.getValue());
-				getGame(e).updateInterface();
+				Main.game.getCurrentPlayer().addMoney(card.getValue());
+				Main.game.updateInterface();
 			}
-			JOptionPane.showMessageDialog(((MonopolyFrame) ((JComponent) e.getComponent())
-					.getTopLevelAncestor()), card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
 			//Insere no final
-			getGame(e).getLuckDeck().add(card);
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Released button");
+			Main.game.getLuckDeck().add(card);
 		}
 	}
 	
-	class FinishTurnButtonMouseListener extends MouseAdapter {
-		private Game getGame(MouseEvent e) {
-			return ((MonopolyFrame) ((JComponent) e.getComponent())
-					.getTopLevelAncestor()).getGame();
-		}
-
+	class FinishTurnButtonActionListener implements ActionListener {
 		@Override
-		public void mousePressed(MouseEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			if (!finishTurnButton.isEnabled())
 				return;
 			
 			System.out.println("Pressed finish turn button");
-			getGame(e).finishTurn();
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			System.out.println("Released button");
+			Main.game.finishTurn();
 		}
 	}
 

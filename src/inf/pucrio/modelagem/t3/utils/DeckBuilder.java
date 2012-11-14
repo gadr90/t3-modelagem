@@ -82,7 +82,7 @@ public class DeckBuilder {
 
 		
 		/* Carta de ida para prisão - revés */
-		card = new LuckCard(false, true, 0, "Revés:\n Vá para a prisão sem receber nada. (Talvez eu lhe faça uma visita...");
+		card = new LuckCard(false, true, 0, "Revés:\n Vá para a prisão sem receber nada. (Talvez eu lhe faça uma visita...)");
 		deck.add(card);
 		
 		
