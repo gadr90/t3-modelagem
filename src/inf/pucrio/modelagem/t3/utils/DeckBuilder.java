@@ -2,7 +2,6 @@ package inf.pucrio.modelagem.t3.utils;
 
 import inf.pucrio.modelagem.t3.card.LuckCard;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;

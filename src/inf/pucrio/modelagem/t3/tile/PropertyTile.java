@@ -40,7 +40,7 @@ public class PropertyTile extends OwnableTile implements ITaxableTile {
 
 	@Override
 	public void collectTax(Player player) {
-		// TODO: Checar número de construções e cobrar de acordo com respectivo valor
+		// TODO: Checar nï¿½mero de construï¿½ï¿½es e cobrar de acordo com respectivo valor
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class PropertyTile extends OwnableTile implements ITaxableTile {
 			return;
 		
 		super.buy(player);
-		player.reduceMoney(this.saleValue);
+		player.addMoney( - this.saleValue);
 		game.updateInterface();
 	}
 

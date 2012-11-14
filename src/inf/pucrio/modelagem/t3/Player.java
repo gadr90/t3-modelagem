@@ -88,8 +88,16 @@ public class Player {
 		return this.game.getTiles().get(this.currentIndex);
 	}
 
-	public void reduceMoney(int value) {
-		this.money -= value;
+	public List<MonopolyCard> getDeck() {
+		return deck;
+	}
+
+	public void setDeck(List<MonopolyCard> deck) {
+		this.deck = deck;
+	}
+
+	public void addMoney(int value) {
+		this.money += value;
 	}
 
 }

@@ -30,7 +30,7 @@ public class CompanyTile extends OwnableTile implements ITaxableTile {
 			return;
 		
 		this.owner = player;
-		player.reduceMoney(this.saleValue);
+		player.addMoney( - this.saleValue);
 		
 		game.updateInterface();
 	}

@@ -2,6 +2,7 @@ package inf.pucrio.modelagem.t3.gui;
 
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.tile.OwnableTile;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
@@ -24,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class MonopolyFrame extends JFrame implements Observer {
@@ -153,7 +155,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		playerTile.setText("Casa atual: "
 				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
 		
-		//TODO - disponibilizar um array de PossibleActionsThisTurn e usar isso para desabilitar botões
+		//TODO - disponibilizar um array de PossibleActionsThisTurn e usar isso para desabilitar botï¿½es
 		if (game.isTurnStarted()) {
 			this.diceButton.setEnabled(false);
 			this.finishTurnButton.setEnabled(true);
@@ -239,6 +241,15 @@ public class MonopolyFrame extends JFrame implements Observer {
 			
 			System.out.println("Pressed draw card button");
 			// TODO mostrar carta drawn
+			LuckCard card = getGame(e).getLuckDeck().poll();
+			if (card.getValue() != 0) {
+				getGame(e).getCurrentPlayer().addMoney(card.getValue());
+				getGame(e).updateInterface();
+			}
+			JOptionPane.showMessageDialog(((MonopolyFrame) ((JComponent) e.getComponent())
+					.getTopLevelAncestor()), card.getDescription(), "Sorte ou RevÃ©s!", JOptionPane.WARNING_MESSAGE);
+			//Insere no final
+			getGame(e).getLuckDeck().add(card);
 		}
 
 		@Override
