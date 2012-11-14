@@ -1,14 +1,17 @@
 package inf.pucrio.modelagem.t3;
 
 
+import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 import inf.pucrio.modelagem.t3.utils.BoardBuilder;
+import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Queue;
 
 /** 
  * Controlador do Jogo
@@ -23,6 +26,7 @@ public class Game extends Observable {
 	private Dice dice = new Dice();
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<MonopolyTile> tiles;
+	private Queue<LuckCard> luckDeck;
 	private String playerMessage;
 	private boolean turnStarted = false;
 	
@@ -41,6 +45,7 @@ public class Game extends Observable {
 		
 		//ConstrÃ³i o tabuleiro
 		tiles = BoardBuilder.buildTiles(this);
+		luckDeck = DeckBuilder.buildLuckDeck();
 	}
 
 	public void startTurn() {
@@ -59,17 +64,17 @@ public class Game extends Observable {
 		currentTurn++;
 		updateInterface();
 		
-		//TODO Melhorar a logica de qual tile o player está
+		//TODO Melhorar a logica de qual tile o player estï¿½
 		if ("FreeStopTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
-			System.out.println("Caiu em tile sem ação");
+			System.out.println("Caiu em tile sem aï¿½ï¿½o");
 			finishTurn();
 		}
 		else if ("PrisonTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
-			System.out.println("Caiu em tile sem ação");
+			System.out.println("Caiu em tile sem aï¿½ï¿½o");
 			finishTurn();
 		}
 		else if ("MoneyTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
-			System.out.println("Caiu em tile sem ação");
+			System.out.println("Caiu em tile sem aï¿½ï¿½o");
 			finishTurn();
 		}
 
@@ -153,6 +158,14 @@ public class Game extends Observable {
 
 	public void setTurnStarted(boolean turnStarted) {
 		this.turnStarted = turnStarted;
+	}
+
+	public Queue<LuckCard> getLuckDeck() {
+		return luckDeck;
+	}
+
+	public void setLuckDeck(Queue<LuckCard> luckDeck) {
+		this.luckDeck = luckDeck;
 	}
 	
 }

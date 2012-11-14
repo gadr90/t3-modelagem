@@ -1,7 +1,10 @@
 package inf.pucrio.modelagem.t3;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
+import inf.pucrio.modelagem.t3.card.MonopolyCard;
 import inf.pucrio.modelagem.t3.gui.PlayerView;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 
@@ -14,6 +17,7 @@ public class Player {
 	private String playerName;
 	private int money;
 	private Game game;
+	private List<MonopolyCard> deck;
 	
 	public Player(Color color, String playerName, Game game) {
 		this.color = color;
@@ -21,6 +25,7 @@ public class Player {
 		this.playerName = playerName;
 		this.money = 8*1 + 10*5 + 10*10 + 10*50 + 8*100 + 2*500;
 		this.game = game;
+		this.deck = new ArrayList<MonopolyCard>();
 	}
 
 	public PlayerView getView() {
