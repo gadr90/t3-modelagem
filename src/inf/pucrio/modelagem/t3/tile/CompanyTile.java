@@ -9,15 +9,19 @@ public class CompanyTile extends OwnableTile implements ITaxableTile {
 	private int saleValue;
 	private int mortgageValue;
 	private int rentalValueFactor;
-	
-	public CompanyTile(int index, Game game, String name, int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
+
+	public CompanyTile(int index, Game game, String name,
+			int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
 		super(index, game, owner);
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.saleValue = saleValue;
+		this.mortgageValue = mortgageValue;
+		this.rentalValueFactor = rentalValueFactor;
 	}
 
 	@Override
 	public void collectTax(Player player) {
-		// TODO: Multiplicar número tirado nos dados pelo rentalValueFactor
+		// TODO: Multiplicar nï¿½mero tirado nos dados pelo rentalValueFactor
 		
 	}
 	
