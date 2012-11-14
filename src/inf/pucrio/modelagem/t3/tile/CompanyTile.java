@@ -22,8 +22,13 @@ public class CompanyTile extends OwnableTile implements ITaxableTile {
 	}
 	
 	public void buy(Player player) {
+		if (this.owner == player) 
+			return;
+		
 		this.owner = player;
 		player.reduceMoney(this.saleValue);
+		
+		game.updateInterface();
 	}
 
 }

@@ -43,9 +43,14 @@ public class PropertyTile extends OwnableTile implements ITaxableTile {
 		// TODO: Checar número de construções e cobrar de acordo com respectivo valor
 	}
 	
+	@Override
 	public void buy(Player player) {
-		this.owner = player;
+		if (this.owner == player) 
+			return;
+		
+		super.buy(player);
 		player.reduceMoney(this.saleValue);
+		game.updateInterface();
 	}
 
 }

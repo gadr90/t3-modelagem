@@ -2,6 +2,7 @@ package inf.pucrio.modelagem.t3.gui;
 
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.tile.OwnableTile;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
@@ -36,6 +37,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JButton drawCardButton;
 	private JButton buildHouseButton;
 	private JButton buildHotelButton;
+	private JButton finishTurnButton;
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
@@ -59,6 +61,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		buyButton.addMouseListener(new BuyTerrainButtonMouseListener());
 		drawCardButton = new JButton("Tirar carta");
 		drawCardButton.addMouseListener(new DrawCardButtonMouseListener());
+		finishTurnButton = new JButton("Finalizar turno");
+		finishTurnButton.addMouseListener(new FinishTurnButtonMouseListener());
 
 		roll1 = new JLabel("Dado 1: ");
 		roll2 = new JLabel("Dado 2: ");
@@ -125,8 +129,10 @@ public class MonopolyFrame extends JFrame implements Observer {
 		eastPanel.add(playerTile);
 		eastPanel.add(buyButton);
 		eastPanel.add(drawCardButton);
+		eastPanel.add(finishTurnButton);
 
 		this.setVisible(true);
+		game.updateInterface();
 		System.out.println("Finished Initializing MonopolyFrame.");
 	}
 
@@ -142,14 +148,19 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
+		playerMoney.setText("Dinheiro: R$ "
+				+ game.getCurrentPlayer().getMoney());
 		playerTile.setText("Casa atual: "
 				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
 		
+		//TODO - disponibilizar um array de PossibleActionsThisTurn e usar isso para desabilitar botões
 		if (game.isTurnStarted()) {
 			this.diceButton.setEnabled(false);
+			this.finishTurnButton.setEnabled(true);
 		}
 		else {
 			this.diceButton.setEnabled(true);
+			this.finishTurnButton.setEnabled(false);
 		}
 		
 		if (game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("PropertyTile")
@@ -179,6 +190,9 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (!diceButton.isEnabled())
+				return;
+			
 			System.out.println("Pressed roll dice button");
 			getGame(e).startTurn();
 		}
@@ -197,10 +211,13 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (!buyButton.isEnabled())
+				return;
+			
 			System.out.println("Pressed buy terrain button");
 			Player player = getGame(e).getCurrentPlayer();
-			// TODO pegar o currentTile, converter para OwnableTile, chamar buy.
-			getGame(e).finishTurn();
+			OwnableTile tile = ((OwnableTile) player.getCurrentTile());
+			tile.buy(player);
 		}
 
 		@Override
@@ -217,9 +234,32 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			if (!drawCardButton.isEnabled())
+				return;
+			
 			System.out.println("Pressed draw card button");
 			// TODO mostrar carta drawn
-			getGame(e).finishTurn();			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			System.out.println("Released button");
+		}
+	}
+	
+	class FinishTurnButtonMouseListener extends MouseAdapter {
+		private Game getGame(MouseEvent e) {
+			return ((MonopolyFrame) ((JComponent) e.getComponent())
+					.getTopLevelAncestor()).getGame();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if (!finishTurnButton.isEnabled())
+				return;
+			
+			System.out.println("Pressed finish turn button");
+			getGame(e).finishTurn();
 		}
 
 		@Override

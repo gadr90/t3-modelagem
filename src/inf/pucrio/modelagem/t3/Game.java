@@ -57,8 +57,7 @@ public class Game extends Observable {
 		//totalRoll = 1;
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
 		currentTurn++;
-		setChanged();
-		notifyObservers();
+		updateInterface();
 		
 		//TODO Melhorar a logica de qual tile o player está
 		if ("FreeStopTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
@@ -84,6 +83,10 @@ public class Game extends Observable {
 		if (currentPlayerIndex > 5)
 			currentPlayerIndex = 0;
 		
+		updateInterface();
+	}
+
+	public void updateInterface() {
 		setChanged();
 		notifyObservers();
 	}

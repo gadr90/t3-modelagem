@@ -11,5 +11,9 @@ public class OwnableTile extends MonopolyTile {
 		super(index, game);
 		this.owner = owner;
 	}
+	
+	public void buy (Player player) {
+		this.owner = player;
+	}
 
 }
