@@ -1,5 +1,6 @@
 package inf.pucrio.modelagem.t3.gui;
 
+import inf.pucrio.modelagem.t3.Action;
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Main;
 import inf.pucrio.modelagem.t3.Player;
@@ -8,6 +9,7 @@ import inf.pucrio.modelagem.t3.tile.ITaxableTile;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -20,6 +22,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,6 +30,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 public class MonopolyFrame extends JFrame implements Observer {
 
@@ -53,7 +58,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		this.game.addObserver(this);
 		System.out.println("Initializing MonopolyFrame...");
 		// Graphic initialization
-		this.setSize(PositionUtils.BOARD_SIZE_PIXELS + 230,
+		this.setSize(PositionUtils.BOARD_SIZE_PIXELS + 530,
 				PositionUtils.BOARD_SIZE_PIXELS + 50);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,13 +72,18 @@ public class MonopolyFrame extends JFrame implements Observer {
 		finishTurnButton.addActionListener(new FinishTurnButtonActionListener());
 
 		roll1 = new JLabel("Dado 1: ");
+		roll1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roll2 = new JLabel("Dado 2: ");
+		roll2.setBorder(new EmptyBorder(5, 5, 5, 5));
 		player = new JLabel("Jogador: "
 				+ game.getCurrentPlayer().getPlayerName());
+		player.setBorder(new EmptyBorder(5, 5, 5, 5));
 		playerMoney = new JLabel("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
+		playerMoney.setBorder(new EmptyBorder(5, 5, 5, 5));
 		playerTile = new JLabel("Casa atual: "
 				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
+		playerTile.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		/*
 		 * Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
@@ -81,9 +91,20 @@ public class MonopolyFrame extends JFrame implements Observer {
 		 */
 
 		JPanel centerPanel = new JPanel(null);
-
-		JPanel eastPanel = new JPanel();
-		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+		
+		JPanel eastPanel = new JPanel(null);
+		eastPanel.setBackground(new Color(0xBBBBBB));
+		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.X_AXIS));
+		
+		JPanel controlsPanel = new JPanel();
+		controlsPanel.setBackground(new Color(0xCCCCCC));
+		controlsPanel.setBorder(new MatteBorder(10, 10, 10, 10, new Color(0xDDDDDD)));
+		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
+		
+		JPanel deckPanel = new JPanel();
+		deckPanel.setBackground(new Color(0xCCCCCC));
+		deckPanel.setBorder(new MatteBorder(10, 10, 10, 0, new Color(0xDDDDDD)));
+		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
 
 		// Adiciona todos os players no tabuleiro representado pelo Panel
 		for (Player p : getGame().getPlayers()) {
@@ -118,20 +139,29 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		centerPanel.setSize(PositionUtils.BOARD_SIZE_PIXELS,
 				PositionUtils.BOARD_SIZE_PIXELS);
-		eastPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
+
+		eastPanel.setSize(500, PositionUtils.BOARD_SIZE_PIXELS);
+		deckPanel.setSize(300, PositionUtils.BOARD_SIZE_PIXELS);
+		deckPanel.add(Box.createHorizontalStrut(300));
+		deckPanel.add(Box.createVerticalGlue());
+		controlsPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
 
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		this.getContentPane().add(eastPanel, BorderLayout.EAST);
+		eastPanel.add(deckPanel);
+		eastPanel.add(controlsPanel);
 
-		eastPanel.add(diceButton);
-		eastPanel.add(roll1);
-		eastPanel.add(roll2);
-		eastPanel.add(player);
-		eastPanel.add(playerMoney);
-		eastPanel.add(playerTile);
-		eastPanel.add(buyButton);
-		eastPanel.add(drawCardButton);
-		eastPanel.add(finishTurnButton);
+		controlsPanel.add(roll1);
+		controlsPanel.add(roll2);
+		controlsPanel.add(player);
+		controlsPanel.add(playerMoney);
+		controlsPanel.add(playerTile);
+		controlsPanel.add(Box.createVerticalStrut(20));
+		controlsPanel.add(diceButton);
+		controlsPanel.add(buyButton);
+		controlsPanel.add(drawCardButton);
+		controlsPanel.add(finishTurnButton);
+		controlsPanel.add(Box.createVerticalGlue());
 
 		this.setVisible(true);
 		game.updateInterface();
@@ -155,28 +185,30 @@ public class MonopolyFrame extends JFrame implements Observer {
 		playerTile.setText("Casa atual: "
 				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
 		
-		//TODO - disponibilizar um array de PossibleActionsThisTurn e usar isso para desabilitar bot�es
-		if (game.isTurnStarted()) {
-			this.diceButton.setEnabled(false);
-			this.finishTurnButton.setEnabled(true);
-		}
-		else {
-			this.diceButton.setEnabled(true);
-			this.finishTurnButton.setEnabled(false);
-		}
-		
-		if (game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("PropertyTile")
-			|| game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("CompanyTile")) {
-			this.drawCardButton.setEnabled(false);
-			this.buyButton.setEnabled(true);
-		}
-		else if (game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("LuckTile")) {
-			this.drawCardButton.setEnabled(true);
-			this.buyButton.setEnabled(false);
-		}
-		else {
-			this.drawCardButton.setEnabled(false);
-			this.buyButton.setEnabled(false);			
+		this.drawCardButton.setEnabled(false);
+		this.buyButton.setEnabled(false);
+		for (Action a : game.getAvailableActions()) {
+			switch (a) {
+			case ROLL_DICE:
+				this.diceButton.setEnabled(true);
+				this.finishTurnButton.setEnabled(false);
+				break;
+
+			case BUY:
+				this.drawCardButton.setEnabled(false);
+				this.buyButton.setEnabled(true);
+				break;
+
+			case DRAW_CARD:
+				this.drawCardButton.setEnabled(true);
+				this.buyButton.setEnabled(false);
+				break;
+
+			case END_TURN:
+				this.diceButton.setEnabled(false);
+				this.finishTurnButton.setEnabled(true);
+				break;
+			}
 		}
 	}
 

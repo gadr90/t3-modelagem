@@ -10,6 +10,7 @@ import inf.pucrio.modelagem.t3.utils.PositionUtils;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Queue;
 
@@ -91,6 +92,26 @@ public class Game extends Observable {
 		updateInterface();
 	}
 
+	public List<Action> getAvailableActions() {
+		List<Action> array = new ArrayList<Action>();
+		if (this.isTurnStarted()) {
+			array.add(Action.END_TURN);
+		}
+		else {
+			array.add(Action.ROLL_DICE);
+		}
+		
+		if (this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("PropertyTile")
+			|| this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("CompanyTile")) {
+			array.add(Action.BUY);
+		}
+		else if (this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("LuckTile")) {
+			array.add(Action.DRAW_CARD);
+		}
+		
+		return array;
+	}
+	
 	public void updateInterface() {
 		setChanged();
 		notifyObservers();
