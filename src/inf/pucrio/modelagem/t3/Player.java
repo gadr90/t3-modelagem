@@ -13,6 +13,7 @@ public class Player {
 	private PlayerView view;
 	private int currentIndex = 0;
 	private int doubleRolls = 0;
+	private boolean luckCardDrawn = false;
 	private Color color;
 	private String playerName;
 	private int money;
@@ -98,6 +99,14 @@ public class Player {
 
 	public void addMoney(int value) {
 		this.money += value;
+	}
+
+	public boolean isLuckCardDrawn() {
+		return luckCardDrawn;
+	}
+
+	public void setLuckCardDrawn(boolean luckCardDrawn) {
+		this.luckCardDrawn = luckCardDrawn;
 	}
 
 }

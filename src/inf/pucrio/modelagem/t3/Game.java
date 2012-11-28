@@ -2,6 +2,8 @@ package inf.pucrio.modelagem.t3;
 
 
 import inf.pucrio.modelagem.t3.card.LuckCard;
+import inf.pucrio.modelagem.t3.tile.ITaxableTile;
+import inf.pucrio.modelagem.t3.tile.LuckTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 import inf.pucrio.modelagem.t3.utils.BoardBuilder;
 import inf.pucrio.modelagem.t3.utils.DeckBuilder;
@@ -84,6 +86,7 @@ public class Game extends Observable {
 	public void finishTurn() {
 		System.out.println("Finishing turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = false;
+		this.getCurrentPlayer().setLuckCardDrawn(false);
 
 		currentPlayerIndex++;
 		if (currentPlayerIndex > 5)
@@ -101,11 +104,12 @@ public class Game extends Observable {
 			array.add(Action.ROLL_DICE);
 		}
 		
-		if (this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("PropertyTile")
-			|| this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("CompanyTile")) {
-			array.add(Action.BUY);
+		if (this.getCurrentPlayer().getCurrentTile() instanceof ITaxableTile) {
+			ITaxableTile tile = (ITaxableTile) this.getCurrentPlayer().getCurrentTile();
+			if (! this.getCurrentPlayer().equals(tile.getOwner()))
+				array.add(Action.BUY);
 		}
-		else if (this.getCurrentPlayer().getCurrentTile().getClass().getSimpleName().equals("LuckTile")) {
+		else if (this.getCurrentPlayer().getCurrentTile() instanceof LuckTile && !this.getCurrentPlayer().isLuckCardDrawn()) {
 			array.add(Action.DRAW_CARD);
 		}
 		

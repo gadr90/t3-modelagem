@@ -17,7 +17,6 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 	@Override
 	public void collectTax(Player player) {
 		// TODO: Multiplicar n�mero tirado nos dados pelo rentalValueFactor
-		
 	}
 	
 	public void buy(Player player) {
@@ -32,6 +31,10 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 
 	public Player getOwner() {
 		return card.getOwner();
+	}
+
+	public CompanyCard getCard() {
+		return card;
 	}
 
 }

@@ -45,4 +45,8 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 		return this.card.getOwner();
 	}
 
+	public PropertyCard getCard() {
+		return card;
+	}
+
 }

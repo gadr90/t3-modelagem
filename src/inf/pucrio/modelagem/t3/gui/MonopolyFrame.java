@@ -51,6 +51,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel playerMoney;
 	private JLabel playerTile;
 	private Game game;
+	private CardPanel cardPanel;
 
 	public MonopolyFrame(Game game) {
 		super("0921720;0920523");
@@ -101,6 +102,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		controlsPanel.setBorder(new MatteBorder(10, 10, 10, 10, new Color(0xDDDDDD)));
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
 		
+		cardPanel = new CardPanel(null);
+		
 		JPanel deckPanel = new JPanel();
 		deckPanel.setBackground(new Color(0xCCCCCC));
 		deckPanel.setBorder(new MatteBorder(10, 10, 10, 0, new Color(0xDDDDDD)));
@@ -118,6 +121,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 					.getScaledInstance(650, 650, java.awt.Image.SCALE_SMOOTH);
 			ImageIcon icon = new ImageIcon(image);
 			JLabel picLabel = new JLabel(icon) {
+				private static final long serialVersionUID = 1L;
+
 				public void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					Graphics2D g2d = (Graphics2D) g;
@@ -161,6 +166,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		controlsPanel.add(buyButton);
 		controlsPanel.add(drawCardButton);
 		controlsPanel.add(finishTurnButton);
+		controlsPanel.add(Box.createVerticalStrut(20));
+		controlsPanel.add(cardPanel);
 		controlsPanel.add(Box.createVerticalGlue());
 
 		this.setVisible(true);
@@ -177,6 +184,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 				game.getPlayers().indexOf(game.getCurrentPlayer()));
 		game.getCurrentPlayer().getView().setBounds(p.x, p.y, 20, 20);
 
+		cardPanel.setTile(game.getCurrentPlayer().getCurrentTile());
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
@@ -249,6 +257,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 			System.out.println("Pressed draw card button");
 			// TODO mostrar carta drawn
 			LuckCard card = Main.game.getLuckDeck().poll();
+			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
 			if (card.getValue() != 0) {
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
 				Main.game.updateInterface();
