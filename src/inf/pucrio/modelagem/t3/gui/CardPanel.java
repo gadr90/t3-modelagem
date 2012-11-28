@@ -6,12 +6,11 @@ import inf.pucrio.modelagem.t3.tile.CompanyTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 import inf.pucrio.modelagem.t3.tile.PropertyTile;
 
-import java.awt.Color;
+import java.awt.Dimension;
 
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 public class CardPanel extends JPanel {
 
@@ -21,13 +20,24 @@ public class CardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private CompanyCard companyCard;
 	private PropertyCard propertyCard;
+	private JTextArea text;
 	
 	public CardPanel(MonopolyTile tile) {
 		super();
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setSize(180, 240);
-		this.setBorder(new MatteBorder(5,5,5,5, new Color(0xBBBBBB)));
+		text = new JTextArea();
+		this.setBorder(null);
+		this.setLayout(null);
+		this.setSize(150, 300);
+		this.setPreferredSize(new Dimension(100, 300));
+		text.setBounds(0, 0, 200, 300);
+		text.setLineWrap(true);
+		text.setWrapStyleWord(true);
+		text.setEditable(false); 
+		text.setOpaque(false);
+		text.setCursor(null);  
+		text.setFocusable(false);
 		
+		this.add(text);
 		this.setTile(tile);
 	}
 	
@@ -35,26 +45,25 @@ public class CardPanel extends JPanel {
 		clean();
 		this.companyCard = tile instanceof CompanyTile ? ((CompanyTile) tile).getCard() : null;
 		this.propertyCard = tile instanceof PropertyTile ? ((PropertyTile) tile).getCard() : null;
-		this.add(new JLabel("Carta"));
 		
 		if (companyCard != null) {
 			if (companyCard.getOwner() != null)
-				this.add(new JLabel("Dono: " + companyCard.getOwner().getPlayerName()));
+				text.append("Dono: " + companyCard.getOwner().getPlayerName() + "\n\n");
 
-			this.add(new JLabel("Companhia: " + companyCard.getName()));	
-			this.add(new JLabel("Valor: " + companyCard.getSaleValue()));
+			text.append("Companhia: " + companyCard.getName() + "\n\n");
+			text.append("Valor: " + companyCard.getSaleValue() + "\n\n");
 		}
 		else if (propertyCard != null) {
 			if (propertyCard.getOwner() != null)
-				this.add(new JLabel("Dono: " + propertyCard.getOwner().getPlayerName()));
+				text.append("Dono: " + propertyCard.getOwner().getPlayerName() + "\n\n");
 
-			this.add(new JLabel("Propriedade: " + propertyCard.getAddress()));	
-			this.add(new JLabel("Valor: " + propertyCard.getSaleValue()));
-		}	
+			text.append("Propriedade: " + propertyCard.getAddress() + "\n\n");
+			text.append("Valor: " + propertyCard.getSaleValue() + "\n\n");
+		}
 	}
 
 	private void clean() {
-		this.removeAll();
+		this.text.setText("");
 	}
 	
 	
