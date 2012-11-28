@@ -2,9 +2,12 @@ package inf.pucrio.modelagem.t3;
 
 
 import inf.pucrio.modelagem.t3.card.LuckCard;
+import inf.pucrio.modelagem.t3.tile.FreeStopTile;
 import inf.pucrio.modelagem.t3.tile.ITaxableTile;
 import inf.pucrio.modelagem.t3.tile.LuckTile;
+import inf.pucrio.modelagem.t3.tile.MoneyTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
+import inf.pucrio.modelagem.t3.tile.PrisonTile;
 import inf.pucrio.modelagem.t3.utils.BoardBuilder;
 import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
@@ -68,17 +71,19 @@ public class Game extends Observable {
 		updateInterface();
 		
 		//TODO Melhorar a logica de qual tile o player est�
-		if ("FreeStopTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+		if (currentPlayer.getCurrentTile() instanceof FreeStopTile) {
 			System.out.println("Caiu em tile sem a��o");
 			finishTurn();
 		}
-		else if ("PrisonTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+		else if (currentPlayer.getCurrentTile() instanceof PrisonTile) {
 			System.out.println("Caiu em tile sem a��o");
 			finishTurn();
 		}
-		else if ("MoneyTile".equals(currentPlayer.getCurrentTile().getClass().getSimpleName())) {
+		else if (currentPlayer.getCurrentTile() instanceof MoneyTile) {
 			System.out.println("Caiu em tile sem a��o");
-			finishTurn();
+			MoneyTile tile = (MoneyTile) currentPlayer.getCurrentTile();
+			currentPlayer.addMoney(tile.getValue());
+			updateInterface();
 		}
 
 	}

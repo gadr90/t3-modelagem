@@ -29,7 +29,7 @@ public class BoardBuilder {
 		FreeStopTile freeStopTile;
 
 		/* Tile de ponto de partida */
-		startTile = new MoneyTile(0, game, 200, false);
+		startTile = new MoneyTile(0, game, 200);
 		tiles.add(startTile);
 		
 		/* Tiles de propriedade */
@@ -41,7 +41,7 @@ public class BoardBuilder {
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(6, game, "Av. Brigadeiro Faria Lima", 240, 150, 120, 20, 100, 300, 750, 925, 1100, null, Color.cyan);
 		tiles.add(propertyTile);
-		propertyTile = new PropertyTile(8, game, "Av. Rebouças", 220, 150, 110, 18, 90, 250, 700, 875, 1050, null, Color.cyan);
+		propertyTile = new PropertyTile(8, game, "Av. Rebouï¿½as", 220, 150, 110, 18, 90, 250, 700, 875, 1050, null, Color.cyan);
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(9, game, "Av. 9 de Julho", 220, 150, 110, 18, 90, 250, 700, 875, 1050, null, Color.cyan);
 		tiles.add(propertyTile);
@@ -49,7 +49,7 @@ public class BoardBuilder {
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(13, game, "Rua Augusta", 180, 100, 90, 14, 70, 200, 550, 750, 950, null, Color.DARK_GRAY);
 		tiles.add(propertyTile);
-		propertyTile = new PropertyTile(14, game, "Av. Pacaembú", 180, 100, 90, 14, 70, 200, 550, 750, 950, null, Color.DARK_GRAY);
+		propertyTile = new PropertyTile(14, game, "Av. Pacaembï¿½", 180, 100, 90, 14, 70, 200, 550, 750, 950, null, Color.DARK_GRAY);
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(17, game, "Interlagos", 350, 200, 175, 35, 175, 500, 1100, 1300, 1500, null, Color.orange);
 		tiles.add(propertyTile);
@@ -69,7 +69,7 @@ public class BoardBuilder {
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(33, game, "Av. Vieira Souto", 320, 200, 160, 28, 150, 450, 1000, 1200, 1400, null, Color.green);
 		tiles.add(propertyTile);
-		propertyTile = new PropertyTile(34, game, "Av. Atlântica", 300, 200, 150, 26, 130, 390, 900, 1100, 1275, null, Color.green);
+		propertyTile = new PropertyTile(34, game, "Av. Atlï¿½ntica", 300, 200, 150, 26, 130, 390, 900, 1100, 1275, null, Color.green);
 		tiles.add(propertyTile);
 		propertyTile = new PropertyTile(36, game, "Ipanema", 300, 200, 150, 26, 130, 390, 900, 1100, 1275, null, Color.green);
 		tiles.add(propertyTile);
@@ -78,7 +78,7 @@ public class BoardBuilder {
 		propertyTile = new PropertyTile(39, game, "Brooklin", 260, 150, 130, 22, 110, 330, 800, 975, 1150, null, Color.blue);
 		tiles.add(propertyTile);
 		
-		/* Tiles de sorte/revés */
+		/* Tiles de sorte/revï¿½s */
 		luckTile = new LuckTile(2, game);
 		tiles.add(luckTile);
 		luckTile = new LuckTile(12, game);
@@ -93,17 +93,17 @@ public class BoardBuilder {
 		tiles.add(luckTile);
 		
 		/* Tiles de companhia */
-		companyTile = new CompanyTile(5, game, "Companhia Ferroviária", 200, 100, 50, null);
+		companyTile = new CompanyTile(5, game, "Companhia Ferroviï¿½ria", 200, 100, 50, null);
 		tiles.add(companyTile);
-		companyTile = new CompanyTile(7, game, "Companhia de Viação", 200, 100, 50, null);
+		companyTile = new CompanyTile(7, game, "Companhia de Viaï¿½ï¿½o", 200, 100, 50, null);
 		tiles.add(companyTile);
-		companyTile = new CompanyTile(15, game, "Companhia de Táxi", 150, 75, 40, null);
+		companyTile = new CompanyTile(15, game, "Companhia de Tï¿½xi", 150, 75, 40, null);
 		tiles.add(companyTile);
-		companyTile = new CompanyTile(25, game, "Companhia de Navegação", 150, 75, 40, null);
+		companyTile = new CompanyTile(25, game, "Companhia de Navegaï¿½ï¿½o", 150, 75, 40, null);
 		tiles.add(companyTile);
-		companyTile = new CompanyTile(32, game, "Companhia de Aviação", 200, 100, 50, null);
+		companyTile = new CompanyTile(32, game, "Companhia de Aviaï¿½ï¿½o", 200, 100, 50, null);
 		tiles.add(companyTile);
-		companyTile = new CompanyTile(35, game, "Companhia de Táxi Aéreo", 200, 100, 50, null);
+		companyTile = new CompanyTile(35, game, "Companhia de Tï¿½xi Aï¿½reo", 200, 100, 50, null);
 		tiles.add(companyTile);
 		
 		/* Tile de prisÃ£o */
@@ -115,11 +115,11 @@ public class BoardBuilder {
 		tiles.add(goToPrisonTile);
 		
 		/* Tiles de lucros */
-		winMoneyTile = new MoneyTile(18, game, 200, true);
+		winMoneyTile = new MoneyTile(18, game, 200);
 		tiles.add(winMoneyTile);
 		
 		/* Tiles de impostos */
-		loseMoneyTile = new MoneyTile(24, game, 200, false);
+		loseMoneyTile = new MoneyTile(24, game, -200);
 		tiles.add(loseMoneyTile);
 		
 		/* Tile de Parada livre */

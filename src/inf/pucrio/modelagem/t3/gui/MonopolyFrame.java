@@ -49,7 +49,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel roll2;
 	private JLabel player;
 	private JLabel playerMoney;
-	private JLabel playerTile;
 	private Game game;
 	private CardPanel cardPanel;
 
@@ -82,9 +81,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 		playerMoney = new JLabel("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		playerMoney.setBorder(new EmptyBorder(5, 5, 5, 5));
-		playerTile = new JLabel("Casa atual: "
-				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
-		playerTile.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		/*
 		 * Font font = new Font(Font.MONOSPACED, Font.BOLD, 30);
@@ -160,7 +156,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 		controlsPanel.add(roll2);
 		controlsPanel.add(player);
 		controlsPanel.add(playerMoney);
-		controlsPanel.add(playerTile);
 		controlsPanel.add(Box.createVerticalStrut(20));
 		controlsPanel.add(diceButton);
 		controlsPanel.add(buyButton);
@@ -190,8 +185,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
 		playerMoney.setText("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
-		playerTile.setText("Casa atual: "
-				+ game.getCurrentPlayer().getCurrentTile().getClass().getSimpleName());
 		
 		this.drawCardButton.setEnabled(false);
 		this.buyButton.setEnabled(false);

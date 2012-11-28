@@ -44,6 +44,8 @@ public class Player {
 	public void setCurrentIndex(int currentIndex) {
 		if (currentIndex > 39) {
 			currentIndex -= 40;
+			// Ao passar pelo ponto inicial, ganha 200 reais.
+			this.addMoney(200);
 		}
 		this.currentIndex = currentIndex;
 	}
