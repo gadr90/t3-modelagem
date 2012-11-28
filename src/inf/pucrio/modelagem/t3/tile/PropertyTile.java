@@ -1,56 +1,48 @@
 package inf.pucrio.modelagem.t3.tile;
 
-import java.awt.Color;
-
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.card.PropertyCard;
 
-public class PropertyTile extends OwnableTile implements ITaxableTile {
+import java.awt.Color;
 
-	//private static Color[] availableColors = {Color.GREEN, Color.DARK_GRAY, Color.BLUE, Color.CYAN, Color.magenta, Color.RED, Color.orange, Color.YELLOW};
-	private Color color;
-	private String address;
-	private int saleValue;
-	private int constructionValue;
-	private int mortgageValue;
-	private int noConstructionRent;
-	private int oneHouseRent;
-	private int twoHousesRent;
-	private int threeHousesRent;
-	private int fourHousesRent;
-	private int hotelRent;
-	
-	
-	public PropertyTile(int index, Game game, String address, int saleValue, int constructionValue, int mortgageValue, 
-						int noConstructionRent, int oneHouseRent, int twoHousesRent, int threeHousesRent,
-						int fourHousesRent, int hotelRent, Player owner, Color color) {
-		super(index, game, owner);
-		this.address = address;
-		this.saleValue = saleValue;
-		this.constructionValue = constructionValue;
-		this.mortgageValue = mortgageValue;
-		this.noConstructionRent = noConstructionRent;
-		this.oneHouseRent = oneHouseRent;
-		this.twoHousesRent = twoHousesRent;
-		this.threeHousesRent = threeHousesRent;
-		this.fourHousesRent = fourHousesRent;
-		this.hotelRent = hotelRent;
-		this.color = color;
+public class PropertyTile extends MonopolyTile implements ITaxableTile {
+
+	// private static Color[] availableColors = {Color.GREEN, Color.DARK_GRAY,
+	// Color.BLUE, Color.CYAN, Color.magenta, Color.RED, Color.orange,
+	// Color.YELLOW};
+	private PropertyCard card;
+
+	public PropertyTile(int index, Game game, String address, int saleValue,
+			int constructionValue, int mortgageValue, int noConstructionRent,
+			int oneHouseRent, int twoHousesRent, int threeHousesRent,
+			int fourHousesRent, int hotelRent, Player owner, Color color) {
+		super(index, game);
+		this.card = new PropertyCard(game, address, saleValue,
+				constructionValue, mortgageValue, noConstructionRent,
+				oneHouseRent, twoHousesRent, threeHousesRent, fourHousesRent,
+				hotelRent, owner, color);
 	}
 
 	@Override
 	public void collectTax(Player player) {
-		// TODO: Checar n�mero de constru��es e cobrar de acordo com respectivo valor
+		// TODO: Checar n�mero de constru��es e cobrar de acordo com respectivo
+		// valor
 	}
-	
+
 	@Override
 	public void buy(Player player) {
-		if (this.owner == player) 
+		if (this.getOwner() == player)
 			return;
-		
-		super.buy(player);
-		player.addMoney( - this.saleValue);
+
+		this.card.setOwner(player);
+		player.addMoney( - this.card.getSaleValue());
 		game.updateInterface();
+	}
+
+	@Override
+	public Player getOwner() {
+		return this.card.getOwner();
 	}
 
 }

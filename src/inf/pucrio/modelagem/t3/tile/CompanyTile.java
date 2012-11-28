@@ -2,21 +2,16 @@ package inf.pucrio.modelagem.t3.tile;
 
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.card.CompanyCard;
 
-public class CompanyTile extends OwnableTile implements ITaxableTile {
+public class CompanyTile extends MonopolyTile implements ITaxableTile {
 	
-	private String name;
-	private int saleValue;
-	private int mortgageValue;
-	private int rentalValueFactor;
+	private CompanyCard card;
 
 	public CompanyTile(int index, Game game, String name,
 			int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
-		super(index, game, owner);
-		this.name = name;
-		this.saleValue = saleValue;
-		this.mortgageValue = mortgageValue;
-		this.rentalValueFactor = rentalValueFactor;
+		super(index, game);
+		card = new CompanyCard(game, name, saleValue, mortgageValue, rentalValueFactor, owner);
 	}
 
 	@Override
@@ -26,13 +21,17 @@ public class CompanyTile extends OwnableTile implements ITaxableTile {
 	}
 	
 	public void buy(Player player) {
-		if (this.owner == player) 
+		if (this.getOwner() == player) 
 			return;
 		
-		this.owner = player;
-		player.addMoney( - this.saleValue);
+		this.card.setOwner(player);
+		player.addMoney( - this.card.getSaleValue());
 		
 		game.updateInterface();
+	}
+
+	public Player getOwner() {
+		return card.getOwner();
 	}
 
 }
