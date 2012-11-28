@@ -5,6 +5,7 @@ import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Main;
 import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
+import inf.pucrio.modelagem.t3.card.MonopolyCard;
 import inf.pucrio.modelagem.t3.tile.ITaxableTile;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
@@ -51,6 +52,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel playerMoney;
 	private Game game;
 	private CardPanel cardPanel;
+	private JPanel deckPanel;
 
 	public MonopolyFrame(Game game) {
 		super("0921720;0920523");
@@ -100,10 +102,11 @@ public class MonopolyFrame extends JFrame implements Observer {
 		
 		cardPanel = new CardPanel(null);
 		
-		JPanel deckPanel = new JPanel();
+		deckPanel = new JPanel();
 		deckPanel.setBackground(new Color(0xCCCCCC));
 		deckPanel.setBorder(new MatteBorder(10, 10, 10, 0, new Color(0xDDDDDD)));
 		deckPanel.setLayout(new BoxLayout(deckPanel, BoxLayout.Y_AXIS));
+		deckPanel.setSize(300, 650);
 
 		// Adiciona todos os players no tabuleiro representado pelo Panel
 		for (Player p : getGame().getPlayers()) {
@@ -143,8 +146,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 		eastPanel.setSize(500, PositionUtils.BOARD_SIZE_PIXELS);
 		deckPanel.setSize(300, PositionUtils.BOARD_SIZE_PIXELS);
-		deckPanel.add(Box.createHorizontalStrut(300));
-		deckPanel.add(Box.createVerticalGlue());
 		controlsPanel.setSize(200, PositionUtils.BOARD_SIZE_PIXELS);
 
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -186,8 +187,15 @@ public class MonopolyFrame extends JFrame implements Observer {
 		playerMoney.setText("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		
-		this.drawCardButton.setEnabled(false);
-		this.buyButton.setEnabled(false);
+		deckPanel.removeAll();
+		deckPanel.repaint();
+		for (MonopolyCard card : game.getCurrentPlayer().getDeck()) {
+			deckPanel.add(new PlayerCardPanel(card));	
+		}
+		
+		drawCardButton.setEnabled(false);
+		buyButton.setEnabled(false);
+		buyButton.setText("Comprar");
 		for (Action a : game.getAvailableActions()) {
 			switch (a) {
 			case ROLL_DICE:
@@ -198,6 +206,10 @@ public class MonopolyFrame extends JFrame implements Observer {
 			case BUY:
 				this.drawCardButton.setEnabled(false);
 				this.buyButton.setEnabled(true);
+			
+				ITaxableTile tile = (ITaxableTile) game.getCurrentPlayer().getCurrentTile();
+				if (tile.getOwner() != null)
+					buyButton.setText("Comprar de " + tile.getOwner().getPlayerName());
 				break;
 
 			case DRAW_CARD:
@@ -255,9 +267,17 @@ public class MonopolyFrame extends JFrame implements Observer {
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
 				Main.game.updateInterface();
 			}
+			
 			JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
-			//Insere no final
-			Main.game.getLuckDeck().add(card);
+			
+			if (card.isPrison() && card.isGoodLuck()) {
+				Main.game.getCurrentPlayer().getDeck().add(card);
+			}
+			else {
+				//Insere no final
+				Main.game.getLuckDeck().add(card);
+			}
+			
 		}
 	}
 	

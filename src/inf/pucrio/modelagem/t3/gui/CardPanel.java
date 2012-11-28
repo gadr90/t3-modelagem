@@ -10,7 +10,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
 
 public class CardPanel extends JPanel {
 
