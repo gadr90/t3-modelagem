@@ -3,11 +3,10 @@
 	- O jogador só poderá sair da prisão se conseguir numa das suas 3 próximas jogadas tirar uma dupla. Se não conseguir, na 4ª jogada pagará 50 reais ao banqueiro e andará o número de pontos conseguidos nos dados.
 	- Ele também pode sair da prisão se tiver o cartão "Saída Livre da Prisão".
 	
--> Honorários: ao passar pelo ponto de partida (não necessariamente tendo que cair em cima dela) recebe 200 reais do banqueiro.
+-> Implementar ações das cartas de sorte/revés!
 
--> Implementar pagamento das taxas para proprietário!
-
--> Ao devolver a carta de sorte/revés, ela deve ser adicionada ao final do deck de cartas de sorte/revés.
+-> Exibir todas as informções das companhias/terrenos visitados.
+	- Para terrenos, dependendo do número de construções o valor é diferente!
 
 ### MARCO 3 ###
 
