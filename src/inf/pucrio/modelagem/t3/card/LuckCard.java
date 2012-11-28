@@ -1,5 +1,7 @@
 package inf.pucrio.modelagem.t3.card;
 
+import inf.pucrio.modelagem.t3.Game;
+
 public class LuckCard extends MonopolyCard {
 
 	private boolean goodLuck;
@@ -7,9 +9,9 @@ public class LuckCard extends MonopolyCard {
 	private int value;
 	private String description;
 	
-	public LuckCard(boolean goodLuck, boolean prison, int value,
+	public LuckCard(Game game, boolean goodLuck, boolean prison, int value,
 			String description) {
-		super();
+		super(game);
 		this.goodLuck = goodLuck;
 		this.prison = prison;
 		this.value = value;

@@ -45,7 +45,7 @@ public class Game extends Observable {
 		
 		//Constrói o tabuleiro
 		tiles = BoardBuilder.buildTiles(this);
-		luckDeck = DeckBuilder.buildLuckDeck();
+		luckDeck = DeckBuilder.buildLuckDeck(this);
 	}
 
 	public void startTurn() {
