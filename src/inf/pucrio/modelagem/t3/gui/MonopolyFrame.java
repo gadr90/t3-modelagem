@@ -43,8 +43,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JButton diceButton;
 	private JButton buyButton;
 	private JButton drawCardButton;
-	private JButton buildHouseButton;
-	private JButton buildHotelButton;
 	private JButton finishTurnButton;
 	private JLabel roll1;
 	private JLabel roll2;
@@ -245,11 +243,20 @@ public class MonopolyFrame extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			if (!buyButton.isEnabled())
 				return;
-			
-			System.out.println("Pressed buy terrain button");
+
 			Player player = Main.game.getCurrentPlayer();
 			ITaxableTile tile = ((ITaxableTile) player.getCurrentTile());
-			tile.buy(player);
+			int result = 0;
+			System.out.println("Pressed buy terrain button");
+			if (tile.getOwner() != null) {
+				result = JOptionPane.showConfirmDialog(Main.frame, "Deseja vender esse terreno, " + tile.getOwner().getPlayerName() + "?", "Compra e Venda", JOptionPane.YES_NO_OPTION);
+			}
+			else {
+				result = JOptionPane.YES_OPTION;
+			}
+			if (result == JOptionPane.YES_OPTION) {
+				tile.buy(player);				
+			}
 		}
 	}
 	
