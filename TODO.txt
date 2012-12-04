@@ -14,20 +14,17 @@
 
 -> Os jogadores podem vender ou trocar terrenos ou empresas entre si quando desejarem. O preço para venda das propriedades entre jogadores é a combinar entre eles.
 
--> Se algum jogador comprar uma propriedade ou terreno hipotecado, ao resgatar o título de posse deverá pagar além do valor da hipoteca mais 20% do valor da mesma a título de juros.
-
 -> No caso de terrenos com casas e hotel, o proprietário deve vendê-las ao banco pela metade do preço para depois vender o terreno para outra pessoa.
 
 ### APRESENTAÇÃO FINAL ### (Implementar Façade e orientar a Controlador e Especialista!)
 
--> Terrenos sem construção e empresas podem ser hipotecadas pelos valores determinados nos títulos por qualquer período de tempo.
-
 -> Se o jogador não tiver dinheiro para pagar ao banco ou a um jogador, ele deve obedecer a seguinte ordem: venda de casas e hotéis pela metade do preço pago.
 
--> Hipotecar ou vender suas propriedades: no caso de vendas ele poderá colocar em leilão para conseguir um valor maior. Se não conseguir, o banco pagará por elas o seu valor nominal.
+-> Vender suas propriedades: no caso de vendas ele poderá colocar em leilão para conseguir um valor maior. Se não conseguir, o banco pagará por elas o seu valor nominal.
 
--> Se mesmo após vender suas casas e hotéis, hipotecar ou vender suas propriedades, o jogador não conseguir pagar suas dívidas ele irá a falência e se retirará do jogo.
-	- O dinheiro conseguido será entregue ao jogador credor. Caso haja propriedades hipotecadas o banco deverá resgatá-las e o dinheiro conseguido irá para o credor. As propriedades devem ser colocadas em leilão.
+-> Se mesmo após vender suas casas e hotéis o jogador não conseguir pagar suas dívidas ele irá a falência e se retirará do jogo.
+	- O dinheiro conseguido será entregue ao jogador credor. As propriedades devem ser colocadas em leilão.
 	
--> O jogo termina quando ficar somente um jogador - os outros foram à falência. Somam-se os valores possuídos através das notas, terrenos, propriedades, casas e hotéis.	
-	- Se algum jogador possuir terreno ou propriedades hipotecadas, ele deverá computar metade do valor pago por elas.
+-> O jogo termina quando ficar somente um jogador - os outros foram à falência. Somam-se os valores possuídos através das notas, terrenos, propriedades, casas e hotéis.
+
+-> Incluir prompt para número dos dados!
