@@ -34,6 +34,12 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 	public void buy(Player player) {
 		if (this.getOwner() == player)
 			return;
+		
+		// É uma venda
+		if (this.getOwner() != null) {
+			this.getOwner().getDeck().remove(this.card);
+			this.getOwner().addMoney( this.card.getSaleValue() );
+		}
 
 		this.card.setOwner(player);
 		player.addMoney( - this.card.getSaleValue());

@@ -19,6 +19,7 @@ public class PropertyCard extends MonopolyCard {
 	private int threeHousesRent;
 	private int fourHousesRent;
 	private int hotelRent;
+	private int builtHousesNumber;
 	private Player owner;
 	
 	public PropertyCard(Game game, String address, int saleValue, int constructionValue, int mortgageValue, 
@@ -134,6 +135,15 @@ public class PropertyCard extends MonopolyCard {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 		this.owner.getDeck().add(this);
+	}
+
+	public int getBuiltHousesNumber() {
+		return builtHousesNumber;
+	}
+
+	public void buildHouse() {
+		//TODO Só pode construir a segunda casa ao ser dono de todos os terrenos dessa cor.
+		this.builtHousesNumber++;
 	}
 
 }

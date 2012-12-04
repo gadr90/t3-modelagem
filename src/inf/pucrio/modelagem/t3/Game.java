@@ -73,11 +73,11 @@ public class Game extends Observable {
 		//TODO Melhorar a logica de qual tile o player est�
 		if (currentPlayer.getCurrentTile() instanceof FreeStopTile) {
 			System.out.println("Caiu em tile sem a��o");
-			finishTurn();
+			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof PrisonTile) {
 			System.out.println("Caiu em tile sem a��o");
-			finishTurn();
+			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof MoneyTile) {
 			System.out.println("Caiu em tile sem a��o");
