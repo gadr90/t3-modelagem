@@ -1,30 +1,30 @@
--> Se o jogador cair no campo "Vá pra prisão" ou se tirar 3 duplas seguidas, irá para a prisão.
-	- Se, porém, alcançar a prisão em lances regulares será considerado visitante e poderá continuar normalmente o jogo quando chegar sua vez.
-	- O jogador só poderá sair da prisão se conseguir numa das suas 3 próximas jogadas tirar uma dupla. Se não conseguir, na 4ª jogada pagará 50 reais ao banqueiro e andará o número de pontos conseguidos nos dados.
-	- Ele também pode sair da prisão se tiver o cartão "Saída Livre da Prisão".
+ï»¿-> Se o jogador cair no campo "VÃ¡ pra prisÃ£o" ou se tirar 3 duplas seguidas, irÃ¡ para a prisÃ£o.
+	- Se, porÃ©m, alcanÃ§ar a prisÃ£o em lances regulares serÃ¡ considerado visitante e poderÃ¡ continuar normalmente o jogo quando chegar sua vez.
+	- O jogador sÃ³ poderÃ¡ sair da prisÃ£o se conseguir numa das suas 3 prÃ³ximas jogadas tirar uma dupla. Se nÃ£o conseguir, na 4Âª jogada pagarÃ¡ 50 reais ao banqueiro e andarÃ¡ o nÃºmero de pontos conseguidos nos dados.
+	- Ele tambÃ©m pode sair da prisÃ£o se tiver o cartÃ£o "SaÃ­da Livre da PrisÃ£o".
 	
--> Implementar ações das cartas de sorte/revés!
+-> Implementar aÃ§Ã£o da luckCard de saÃ­da da prisÃ£o.
+	- Player pode guardÃ¡-la e usÃ¡-la quando julgar necessÃ¡rio para sair da prisÃ£o.
 
--> Exibir todas as informções das companhias/terrenos visitados.
-	- Para terrenos, dependendo do número de construções o valor é diferente!
+-> Exibir todas as informÃ§Ãµes das companhias/terrenos visitados.
+	- Para terrenos, dependendo do nÃºmero de construÃ§Ãµes o valor Ã© diferente!
 
 ### MARCO 3 ###
 
--> Para construir, proprietário deve ter todas os terrenos daquela cor. Daí, pode construir uma casa em cada, depois a segunda em cada, e assim sucessivamente até a construção do hotel.
+-> Para construir, proprietÃ¡rio deve ter todas os terrenos daquela cor. DaÃ­, pode construir uma casa em cada, depois a segunda em cada, e assim sucessivamente atÃ© a construÃ§Ã£o do hotel.
 
--> Os jogadores podem vender ou trocar terrenos ou empresas entre si quando desejarem. O preço para venda das propriedades entre jogadores é a combinar entre eles.
+-> Os jogadores podem vender ou trocar terrenos ou empresas entre si quando desejarem. O preÃ§o para venda das propriedades entre jogadores Ã© a combinar entre eles.
 
--> No caso de terrenos com casas e hotel, o proprietário deve vendê-las ao banco pela metade do preço para depois vender o terreno para outra pessoa.
+-> No caso de terrenos com casas e hotel, o proprietÃ¡rio deve vendÃª-las ao banco pela metade do preÃ§o para depois vender o terreno para outra pessoa.
 
-### APRESENTAÇÃO FINAL ### (Implementar Façade e orientar a Controlador e Especialista!)
+### APRESENTAÃ‡ÃƒO FINAL ### (Implementar FaÃ§ade e orientar a Controlador e Especialista!)
 
--> Se o jogador não tiver dinheiro para pagar ao banco ou a um jogador, ele deve obedecer a seguinte ordem: venda de casas e hotéis pela metade do preço pago.
+-> Se o jogador nÃ£o tiver dinheiro para pagar ao banco ou a um jogador, ele deve obedecer a seguinte ordem: venda de casas e hotÃ©is pela metade do preÃ§o pago.
 
--> Vender suas propriedades: no caso de vendas ele poderá colocar em leilão para conseguir um valor maior. Se não conseguir, o banco pagará por elas o seu valor nominal.
+-> Vender suas propriedades: no caso de vendas ele poderÃ¡ colocar em leilÃ£o para conseguir um valor maior. Se nÃ£o conseguir, o banco pagarÃ¡ por elas o seu valor nominal.
 
--> Se mesmo após vender suas casas e hotéis o jogador não conseguir pagar suas dívidas ele irá a falência e se retirará do jogo.
-	- O dinheiro conseguido será entregue ao jogador credor. As propriedades devem ser colocadas em leilão.
+-> Se mesmo apÃ³s vender suas casas e hotÃ©is o jogador nÃ£o conseguir pagar suas dÃ­vidas ele irÃ¡ a falÃªncia e se retirarÃ¡ do jogo.
+	- O dinheiro conseguido serÃ¡ entregue ao jogador credor. As propriedades devem ser colocadas em leilÃ£o.
 	
--> O jogo termina quando ficar somente um jogador - os outros foram à falência. Somam-se os valores possuídos através das notas, terrenos, propriedades, casas e hotéis.
-
--> Incluir prompt para número dos dados!
+-> O jogo termina quando ficar somente um jogador - os outros foram Ã  falÃªncia.
+	- Somam-se os valores possuÃ­dos atravÃ©s das notas, terrenos, propriedades, casas e hotÃ©is.
