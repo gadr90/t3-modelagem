@@ -251,14 +251,17 @@ public class MonopolyFrame extends JFrame implements Observer {
 				String result = JOptionPane.showInputDialog(Main.frame, "Numero de tiles a andar?");
 				if (result == null)
 					return;
-				
-				try {
-					numberOfPositions = Integer.parseInt(result);
-			    } catch (NumberFormatException exception) {
-			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
-			    }
-				
-				Main.game.startTurn(numberOfPositions);
+				if (result.equals("double"))  {
+					Main.game.startTurn(6, true);
+				}
+				else {
+					try {
+						numberOfPositions = Integer.parseInt(result);
+				    } catch (NumberFormatException exception) {
+				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+				    }
+					Main.game.startTurn(numberOfPositions, false);					
+				}
 				
 			} else {
 				Main.game.startTurn();				

@@ -62,10 +62,10 @@ public class Game extends Observable {
 
 
 	public void startTurn() {
-		this.startTurn(0);
+		this.startTurn(0, false);
 	}
 	
-	public void startTurn(int numberOfPositions) {
+	public void startTurn(int numberOfPositions, boolean doubleRoll) {
 		int totalRoll = 0;
 		System.out.println("Starting turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = true;
@@ -108,6 +108,7 @@ public class Game extends Observable {
 	public void finishTurn() {
 		System.out.println("Finishing turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = false;
+		this.getCurrentPlayer().setDoubleRollsThisTurn(0);
 		this.getCurrentPlayer().setLuckCardDrawn(false);
 
 		currentPlayerIndex++;

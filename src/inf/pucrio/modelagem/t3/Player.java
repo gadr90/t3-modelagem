@@ -82,6 +82,13 @@ public class Player {
 
 	public void addDoubleRoll() {
 		this.doubleRolls++;		
+		if (this.isArrested()) {
+			this.setArrested(false);
+		}
+		else if (this.doubleRolls == 3) {
+			this.setArrested(true);
+			this.setCurrentIndex(Game.PRISON_TILE_INDEX);
+		}
 	}
 
 	public int getMoney() {
