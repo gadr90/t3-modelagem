@@ -33,7 +33,7 @@ public class DeckBuilder {
 		card = new LuckCard(game, true, false, 200, "Sorte:\n Avance até o ponto de partida e...");
 		/* Neste caso uma dúvida: ele ganha 200 da carta + 200 de checkpoint, por passar pela startTile, ou só 200? */
 		deck.add(card);
-		card = new LuckCard(game, true, false, 250, "Sorte:\n Você apostou com os parceiros deste jogo e ganhou.");
+		card = new LuckCard(game, true, false, LuckCard.BET_LUCK_CARD, "Sorte:\n Você apostou com os parceiros deste jogo e ganhou.");
 		deck.add(card);
 		/* Neste caso o jogador deve receber 50 reais de cada um. Já coloquei 50*5=250 pra somar ao seu saldo, mas a dedução deve ser individual de 50 reais. */
 		card = new LuckCard(game, true, false, 45, "Sorte:\n Você saiu de férias e se hospedou na casa de um amigo. Você economizou com o hotel.");

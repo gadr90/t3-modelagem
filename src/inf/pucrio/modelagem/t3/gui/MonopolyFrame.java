@@ -8,6 +8,7 @@ import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
 import inf.pucrio.modelagem.t3.tile.ITaxableTile;
+import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
@@ -284,6 +285,16 @@ public class MonopolyFrame extends JFrame implements Observer {
 			LuckCard card = Main.game.getLuckDeck().poll();
 			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
 			if (card.getValue() != 0) {
+
+				//Trata o caso de retirar o dinheiro dos demais jogadores.
+				if (card.isBetCard()) {
+					for (Player p : Main.game.getPlayers()) {
+						if (p != Main.game.getCurrentPlayer()) {
+							p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
+						}
+					}
+				}
+				
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
 				Main.game.updateInterface();
 			}
