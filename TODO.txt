@@ -3,7 +3,8 @@
 	- O jogador só poderá sair da prisão se conseguir numa das suas 3 próximas jogadas tirar uma dupla. Se não conseguir, na 4ª jogada pagará 50 reais ao banqueiro e andará o número de pontos conseguidos nos dados.
 	- Ele também pode sair da prisão se tiver o cartão "Saída Livre da Prisão".
 	
--> Implementar ações das cartas de sorte/revés!
+-> Implementar ação da luckCard de saída da prisão.
+	- Player pode guardá-la e usá-la quando julgar necessário para sair da prisão.
 
 -> Exibir todas as informções das companhias/terrenos visitados.
 	- Para terrenos, dependendo do número de construções o valor é diferente!
@@ -25,6 +26,5 @@
 -> Se mesmo após vender suas casas e hotéis o jogador não conseguir pagar suas dívidas ele irá a falência e se retirará do jogo.
 	- O dinheiro conseguido será entregue ao jogador credor. As propriedades devem ser colocadas em leilão.
 	
--> O jogo termina quando ficar somente um jogador - os outros foram à falência. Somam-se os valores possuídos através das notas, terrenos, propriedades, casas e hotéis.
-
--> Incluir prompt para número dos dados!
+-> O jogo termina quando ficar somente um jogador - os outros foram à falência.
+	- Somam-se os valores possuídos através das notas, terrenos, propriedades, casas e hotéis.
