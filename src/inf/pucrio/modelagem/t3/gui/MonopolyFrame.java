@@ -3,6 +3,7 @@ package inf.pucrio.modelagem.t3.gui;
 import inf.pucrio.modelagem.t3.Action;
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Main;
+import inf.pucrio.modelagem.t3.NotEnoughMoneyException;
 import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
@@ -47,6 +48,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
+	private JLabel arrested;
 	private JLabel playerMoney;
 	private Game game;
 	private CardPanel cardPanel;
@@ -75,9 +77,15 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roll2 = new JLabel("Dado 2: ");
 		roll2.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		player = new JLabel("Jogador: "
 				+ game.getCurrentPlayer().getPlayerName());
 		player.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		arrested = new JLabel("Preso: "
+				+ (game.getCurrentPlayer().isArrested() ? "Sim" : "Não"));
+		arrested.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		playerMoney = new JLabel("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		playerMoney.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -154,6 +162,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		controlsPanel.add(roll1);
 		controlsPanel.add(roll2);
 		controlsPanel.add(player);
+		controlsPanel.add(arrested);
 		controlsPanel.add(playerMoney);
 		controlsPanel.add(Box.createVerticalStrut(20));
 		controlsPanel.add(diceButton);
@@ -182,6 +191,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
+		arrested.setText("Preso: "
+				+ (game.getCurrentPlayer().isArrested() ? "Sim" : "Não"));
 		playerMoney.setText("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		
@@ -234,7 +245,25 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed roll dice button");
-			Main.game.startTurn();			
+			int numberOfPositions = 0;
+			
+			if (Game.DEBUG) {
+				String result = JOptionPane.showInputDialog(Main.frame, "Numero de tiles a andar?");
+				if (result == null)
+					return;
+				
+				try {
+					numberOfPositions = Integer.parseInt(result);
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    }
+				
+				Main.game.startTurn(numberOfPositions);
+				
+			} else {
+				Main.game.startTurn();				
+			}
+						
 		}
 	}
 	
@@ -246,16 +275,29 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 			Player player = Main.game.getCurrentPlayer();
 			ITaxableTile tile = ((ITaxableTile) player.getCurrentTile());
-			int result = 0;
+			String result = null;
 			System.out.println("Pressed buy terrain button");
+			//Tem dono
 			if (tile.getOwner() != null) {
-				result = JOptionPane.showConfirmDialog(Main.frame, "Deseja vender esse terreno, " + tile.getOwner().getPlayerName() + "?", "Compra e Venda", JOptionPane.YES_NO_OPTION);
+				result = JOptionPane.showInputDialog(Main.frame, "Deseja vender esse terreno por quanto, " + tile.getOwner().getPlayerName() + "?");
+				if (result == null)
+					return;
+				
+				try {
+			        int price = Integer.parseInt(result);
+			        tile.buy(player, price);
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    } catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
 			}
 			else {
-				result = JOptionPane.YES_OPTION;
-			}
-			if (result == JOptionPane.YES_OPTION) {
-				tile.buy(player);				
+				try {
+					tile.buy(player);
+				} catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
 			}
 		}
 	}
@@ -267,10 +309,28 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed draw card button");
-			// TODO mostrar carta drawn
 			LuckCard card = Main.game.getLuckDeck().poll();
 			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
 			if (card.getValue() != 0) {
+
+				//Trata o caso de retirar o dinheiro dos demais jogadores.
+				if (card.isBetCard()) {
+					for (Player p : Main.game.getPlayers()) {
+						if (p != Main.game.getCurrentPlayer()) {
+							p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
+						}
+					}
+				}
+				// Carta de vá para início
+				else if (card.isStartMoveCard()){
+					Main.game.getCurrentPlayer().setCurrentIndex(Game.START_TILE_INDEX_WIN_MONEY);
+				}
+				// Carta de vá para prisão
+				else if (card.isPrison() && !card.isGoodLuck()) {
+					Main.game.getCurrentPlayer().setArrested(true);
+					Main.game.getCurrentPlayer().setCurrentIndex(Game.PRISON_TILE_INDEX);					
+				}
+				
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
 				Main.game.updateInterface();
 			}
