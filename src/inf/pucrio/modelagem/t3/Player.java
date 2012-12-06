@@ -14,6 +14,7 @@ public class Player {
 	private int currentIndex = 0;
 	private int doubleRolls = 0;
 	private boolean luckCardDrawn = false;
+	private boolean arrested = false;
 	private Color color;
 	private String playerName;
 	private int money;
@@ -46,6 +47,11 @@ public class Player {
 			currentIndex -= 40;
 			// Ao passar pelo ponto inicial, ganha 200 reais.
 			this.addMoney(200);
+		}
+		else if (currentIndex == Game.GO_TO_PRISON_TILE_INDEX) {
+			this.setArrested(true);
+			this.currentIndex = Game.PRISON_TILE_INDEX;
+			return;
 		}
 		this.currentIndex = currentIndex;
 	}
@@ -109,6 +115,14 @@ public class Player {
 
 	public void setLuckCardDrawn(boolean luckCardDrawn) {
 		this.luckCardDrawn = luckCardDrawn;
+	}
+
+	public boolean isArrested() {
+		return arrested;
+	}
+
+	public void setArrested(boolean arrested) {
+		this.arrested = arrested;
 	}
 
 }

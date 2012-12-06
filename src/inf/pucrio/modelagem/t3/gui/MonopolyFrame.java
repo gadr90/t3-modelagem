@@ -48,6 +48,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 	private JLabel roll1;
 	private JLabel roll2;
 	private JLabel player;
+	private JLabel arrested;
 	private JLabel playerMoney;
 	private Game game;
 	private CardPanel cardPanel;
@@ -76,9 +77,15 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		roll2 = new JLabel("Dado 2: ");
 		roll2.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		player = new JLabel("Jogador: "
 				+ game.getCurrentPlayer().getPlayerName());
 		player.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		arrested = new JLabel("Preso: "
+				+ (game.getCurrentPlayer().isArrested() ? "Sim" : "Não"));
+		arrested.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		playerMoney = new JLabel("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		playerMoney.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -155,6 +162,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 		controlsPanel.add(roll1);
 		controlsPanel.add(roll2);
 		controlsPanel.add(player);
+		controlsPanel.add(arrested);
 		controlsPanel.add(playerMoney);
 		controlsPanel.add(Box.createVerticalStrut(20));
 		controlsPanel.add(diceButton);
@@ -183,6 +191,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 		roll1.setText("Dado 1: " + String.valueOf(game.getCurrentRoll1()));
 		roll2.setText("Dado 2: " + String.valueOf(game.getCurrentRoll2()));
 		player.setText("Jogador: " + game.getCurrentPlayer().getPlayerName());
+		arrested.setText("Preso: "
+				+ (game.getCurrentPlayer().isArrested() ? "Sim" : "Não"));
 		playerMoney.setText("Dinheiro: R$ "
 				+ game.getCurrentPlayer().getMoney());
 		
@@ -235,7 +245,25 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed roll dice button");
-			Main.game.startTurn();			
+			int numberOfPositions = 0;
+			
+			if (Game.DEBUG) {
+				String result = JOptionPane.showInputDialog(Main.frame, "Numero de tiles a andar?");
+				if (result == null)
+					return;
+				
+				try {
+					numberOfPositions = Integer.parseInt(result);
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    }
+				
+				Main.game.startTurn(numberOfPositions);
+				
+			} else {
+				Main.game.startTurn();				
+			}
+						
 		}
 	}
 	
@@ -295,11 +323,12 @@ public class MonopolyFrame extends JFrame implements Observer {
 				}
 				// Carta de vá para início
 				else if (card.isStartMoveCard()){
-					Main.game.setCurrentPlayerIndex(Game.START_TILE_INDEX);
+					Main.game.getCurrentPlayer().setCurrentIndex(Game.START_TILE_INDEX_WIN_MONEY);
 				}
 				// Carta de vá para prisão
 				else if (card.isPrison() && !card.isGoodLuck()) {
-					Main.game.setCurrentPlayerIndex(Game.PRISON_TILE_INDEX);					
+					Main.game.getCurrentPlayer().setArrested(true);
+					Main.game.getCurrentPlayer().setCurrentIndex(Game.PRISON_TILE_INDEX);					
 				}
 				
 				Main.game.getCurrentPlayer().addMoney(card.getValue());

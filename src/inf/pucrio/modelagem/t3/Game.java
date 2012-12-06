@@ -25,10 +25,14 @@ import java.util.Queue;
  *
  */
 public class Game extends Observable {
+
+	public static final boolean DEBUG = true;
 	
 	public static final int NUMBER_OF_PLAYERS = 6;
 	public static final int START_TILE_INDEX = 0;
 	public static final int PRISON_TILE_INDEX = 10;
+	public static final int START_TILE_INDEX_WIN_MONEY = 40;
+	public static final int GO_TO_PRISON_TILE_INDEX = 30;
 	private int currentTurn = 1;
 	private int currentPlayerIndex = 0;
 	private Dice dice = new Dice();
@@ -56,33 +60,44 @@ public class Game extends Observable {
 		luckDeck = DeckBuilder.buildLuckDeck(this);
 	}
 
+
 	public void startTurn() {
+		this.startTurn(0);
+	}
+	
+	public void startTurn(int numberOfPositions) {
+		int totalRoll = 0;
 		System.out.println("Starting turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = true;
 		Player currentPlayer = getCurrentPlayer();
-		dice.roll();
-		//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
-		if (dice.isDoubleRoll) {
-			currentPlayer.addDoubleRoll();
+		
+		if (DEBUG) {
+			totalRoll = numberOfPositions;
 		}
-		int totalRoll = dice.currentRollTotal;
-		//DEBUG
-		//totalRoll = 1;
+		else {
+			dice.roll();
+			//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
+			if (dice.isDoubleRoll) {
+				currentPlayer.addDoubleRoll();
+			}
+			totalRoll = dice.currentRollTotal;			
+		}
+		
 		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
 		currentTurn++;
 		updateInterface();
 		
 		//TODO Melhorar a logica de qual tile o player est�
 		if (currentPlayer.getCurrentTile() instanceof FreeStopTile) {
-			System.out.println("Caiu em tile sem a��o");
+			System.out.println("Caiu em tile sem ação");
 			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof PrisonTile) {
-			System.out.println("Caiu em tile sem a��o");
+			System.out.println("Caiu em tile sem ação");
 			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof MoneyTile) {
-			System.out.println("Caiu em tile sem a��o");
+			System.out.println("Caiu em tile sem ação");
 			MoneyTile tile = (MoneyTile) currentPlayer.getCurrentTile();
 			currentPlayer.addMoney(tile.getValue());
 			updateInterface();
