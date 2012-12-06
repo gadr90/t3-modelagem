@@ -27,6 +27,8 @@ import java.util.Queue;
 public class Game extends Observable {
 	
 	public static final int NUMBER_OF_PLAYERS = 6;
+	public static final int START_TILE_INDEX = 0;
+	public static final int PRISON_TILE_INDEX = 10;
 	private int currentTurn = 1;
 	private int currentPlayerIndex = 0;
 	private Dice dice = new Dice();

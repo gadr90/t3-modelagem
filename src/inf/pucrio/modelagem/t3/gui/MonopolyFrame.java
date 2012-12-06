@@ -8,7 +8,6 @@ import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
 import inf.pucrio.modelagem.t3.tile.ITaxableTile;
-import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
@@ -293,6 +292,14 @@ public class MonopolyFrame extends JFrame implements Observer {
 							p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
 						}
 					}
+				}
+				// Carta de vá para início
+				else if (card.isStartMoveCard()){
+					Main.game.setCurrentPlayerIndex(Game.START_TILE_INDEX);
+				}
+				// Carta de vá para prisão
+				else if (card.isPrison() && !card.isGoodLuck()) {
+					Main.game.setCurrentPlayerIndex(Game.PRISON_TILE_INDEX);					
 				}
 				
 				Main.game.getCurrentPlayer().addMoney(card.getValue());

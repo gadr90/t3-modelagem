@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class BoardBuilder {
-
-	public static int PRISON_TILE_INDEX = 10;
 	
 	public static ArrayList<MonopolyTile> buildTiles(Game game) {
 		ArrayList<MonopolyTile> tiles = new ArrayList<MonopolyTile>();

@@ -5,6 +5,7 @@ import inf.pucrio.modelagem.t3.Game;
 public class LuckCard extends MonopolyCard {
 
 	public static int BET_LUCK_CARD = 0xABCDEF;
+	public static int START_LUCK_CARD = 0xFEDCBA;
 	public static int BET_LUCK_CARD_VALUE = 50;
 	
 	private boolean goodLuck;
@@ -51,6 +52,10 @@ public class LuckCard extends MonopolyCard {
 	
 	public boolean isBetCard() {
 		return this.value == BET_LUCK_CARD;
+	}
+	
+	public boolean isStartMoveCard() {
+		return this.value == START_LUCK_CARD;
 	}
 
 	public String getDescription() {
