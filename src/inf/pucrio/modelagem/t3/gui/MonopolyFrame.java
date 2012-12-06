@@ -3,6 +3,7 @@ package inf.pucrio.modelagem.t3.gui;
 import inf.pucrio.modelagem.t3.Action;
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Main;
+import inf.pucrio.modelagem.t3.NotEnoughMoneyException;
 import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
@@ -246,16 +247,29 @@ public class MonopolyFrame extends JFrame implements Observer {
 
 			Player player = Main.game.getCurrentPlayer();
 			ITaxableTile tile = ((ITaxableTile) player.getCurrentTile());
-			int result = 0;
+			String result = null;
 			System.out.println("Pressed buy terrain button");
+			//Tem dono
 			if (tile.getOwner() != null) {
-				result = JOptionPane.showConfirmDialog(Main.frame, "Deseja vender esse terreno, " + tile.getOwner().getPlayerName() + "?", "Compra e Venda", JOptionPane.YES_NO_OPTION);
+				result = JOptionPane.showInputDialog(Main.frame, "Deseja vender esse terreno por quanto, " + tile.getOwner().getPlayerName() + "?");
+				if (result == null)
+					return;
+				
+				try {
+			        int price = Integer.parseInt(result);
+			        tile.buy(player, price);
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    } catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
 			}
 			else {
-				result = JOptionPane.YES_OPTION;
-			}
-			if (result == JOptionPane.YES_OPTION) {
-				tile.buy(player);				
+				try {
+					tile.buy(player);
+				} catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
 			}
 		}
 	}
@@ -267,7 +281,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed draw card button");
-			// TODO mostrar carta drawn
 			LuckCard card = Main.game.getLuckDeck().poll();
 			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
 			if (card.getValue() != 0) {

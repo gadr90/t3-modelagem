@@ -1,6 +1,7 @@
 package inf.pucrio.modelagem.t3.tile;
 
 import inf.pucrio.modelagem.t3.Game;
+import inf.pucrio.modelagem.t3.NotEnoughMoneyException;
 import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.card.PropertyCard;
 
@@ -31,19 +32,27 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 	}
 
 	@Override
-	public void buy(Player player) {
+	public void buy(Player player, int agreedPrice) throws NotEnoughMoneyException {
 		if (this.getOwner() == player)
 			return;
+		
+		if (player.getMoney() < agreedPrice)
+			throw new NotEnoughMoneyException("Você não tem dinheiro suficiente para comprar isto!");
 		
 		// É uma venda
 		if (this.getOwner() != null) {
 			this.getOwner().getDeck().remove(this.card);
-			this.getOwner().addMoney( this.card.getSaleValue() );
+			this.getOwner().addMoney( agreedPrice );
 		}
 
 		this.card.setOwner(player);
-		player.addMoney( - this.card.getSaleValue());
+		player.addMoney( - agreedPrice);
 		game.updateInterface();
+	}
+	
+	@Override
+	public void buy(Player player) throws NotEnoughMoneyException {
+		this.buy(player, this.card.getSaleValue());		
 	}
 
 	@Override

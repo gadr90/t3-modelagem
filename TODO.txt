@@ -1,30 +1,30 @@
--> Se o jogador cair no campo "V· pra pris„o" ou se tirar 3 duplas seguidas, ir· para a pris„o.
-	- Se, porÈm, alcanÁar a pris„o em lances regulares ser· considerado visitante e poder· continuar normalmente o jogo quando chegar sua vez.
-	- O jogador sÛ poder· sair da pris„o se conseguir numa das suas 3 prÛximas jogadas tirar uma dupla. Se n„o conseguir, na 4™ jogada pagar· 50 reais ao banqueiro e andar· o n˙mero de pontos conseguidos nos dados.
-	- Ele tambÈm pode sair da pris„o se tiver o cart„o "SaÌda Livre da Pris„o".
+Ôªø-> Se o jogador cair no campo "V√° pra pris√£o" ou se tirar 3 duplas seguidas, ir√° para a pris√£o.
+	- Se, por√©m, alcan√ßar a pris√£o em lances regulares ser√° considerado visitante e poder√° continuar normalmente o jogo quando chegar sua vez.
+	- O jogador s√≥ poder√° sair da pris√£o se conseguir numa das suas 3 pr√≥ximas jogadas tirar uma dupla. Se n√£o conseguir, na 4¬™ jogada pagar√° 50 reais ao banqueiro e andar√° o n√∫mero de pontos conseguidos nos dados.
+	- Ele tamb√©m pode sair da pris√£o se tiver o cart√£o "Sa√≠da Livre da Pris√£o".
 	
--> Implementar aÁıes das cartas de sorte/revÈs!
+-> Implementar a√ß√µes das cartas de sorte/rev√©s!
 
--> Exibir todas as informÁıes das companhias/terrenos visitados.
-	- Para terrenos, dependendo do n˙mero de construÁıes o valor È diferente!
+-> Exibir todas as inform√ß√µes das companhias/terrenos visitados.
+	- Para terrenos, dependendo do n√∫mero de constru√ß√µes o valor √© diferente!
 
 ### MARCO 3 ###
 
--> Para construir, propriet·rio deve ter todas os terrenos daquela cor. DaÌ, pode construir uma casa em cada, depois a segunda em cada, e assim sucessivamente atÈ a construÁ„o do hotel.
+-> Para construir, propriet√°rio deve ter todas os terrenos daquela cor. Da√≠, pode construir uma casa em cada, depois a segunda em cada, e assim sucessivamente at√© a constru√ß√£o do hotel.
 
--> Os jogadores podem vender ou trocar terrenos ou empresas entre si quando desejarem. O preÁo para venda das propriedades entre jogadores È a combinar entre eles.
+-> Os jogadores podem vender ou trocar terrenos ou empresas entre si quando desejarem. O pre√ßo para venda das propriedades entre jogadores √© a combinar entre eles.
 
--> No caso de terrenos com casas e hotel, o propriet·rio deve vendÍ-las ao banco pela metade do preÁo para depois vender o terreno para outra pessoa.
+-> No caso de terrenos com casas e hotel, o propriet√°rio deve vend√™-las ao banco pela metade do pre√ßo para depois vender o terreno para outra pessoa.
 
-### APRESENTA«√O FINAL ### (Implementar FaÁade e orientar a Controlador e Especialista!)
+### APRESENTA√á√ÉO FINAL ### (Implementar Fa√ßade e orientar a Controlador e Especialista!)
 
--> Se o jogador n„o tiver dinheiro para pagar ao banco ou a um jogador, ele deve obedecer a seguinte ordem: venda de casas e hotÈis pela metade do preÁo pago.
+-> Se o jogador n√£o tiver dinheiro para pagar ao banco ou a um jogador, ele deve obedecer a seguinte ordem: venda de casas e hot√©is pela metade do pre√ßo pago.
 
--> Vender suas propriedades: no caso de vendas ele poder· colocar em leil„o para conseguir um valor maior. Se n„o conseguir, o banco pagar· por elas o seu valor nominal.
+-> Vender suas propriedades: no caso de vendas ele poder√° colocar em leil√£o para conseguir um valor maior. Se n√£o conseguir, o banco pagar√° por elas o seu valor nominal.
 
--> Se mesmo apÛs vender suas casas e hotÈis o jogador n„o conseguir pagar suas dÌvidas ele ir· a falÍncia e se retirar· do jogo.
-	- O dinheiro conseguido ser· entregue ao jogador credor. As propriedades devem ser colocadas em leil„o.
+-> Se mesmo ap√≥s vender suas casas e hot√©is o jogador n√£o conseguir pagar suas d√≠vidas ele ir√° a fal√™ncia e se retirar√° do jogo.
+	- O dinheiro conseguido ser√° entregue ao jogador credor. As propriedades devem ser colocadas em leil√£o.
 	
--> O jogo termina quando ficar somente um jogador - os outros foram ‡ falÍncia. Somam-se os valores possuÌdos atravÈs das notas, terrenos, propriedades, casas e hotÈis.
+-> O jogo termina quando ficar somente um jogador - os outros foram √† fal√™ncia. Somam-se os valores possu√≠dos atrav√©s das notas, terrenos, propriedades, casas e hot√©is.
 
--> Incluir prompt para n˙mero dos dados!
+-> Incluir prompt para n√∫mero dos dados!
