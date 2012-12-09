@@ -30,10 +30,6 @@ public class DeckBuilder {
 		deck.add(card);
 		card = new LuckCard(game, true, false, 100, "Sorte:\n O seu cachorro policial tirou o 1º prêmio na exposição do Kennel Club.");
 		deck.add(card);
-		card = new LuckCard(game, true, false, 0, "Sorte:\n Avance até o ponto de partida (ganha 200!)", false, true);
-		deck.add(card);
-		card = new LuckCard(game, true, false, 0, "Sorte:\n Você apostou com os parceiros deste jogo e ganhou.");
-		deck.add(card);
 		card = new LuckCard(game, true, false, 45, "Sorte:\n Você saiu de férias e se hospedou na casa de um amigo. Você economizou com o hotel.");
 		deck.add(card);
 		card = new LuckCard(game, true, false, 100, "Sorte:\n Inesperadamente você recebeu uma herança que já estava esquecida.");
@@ -72,7 +68,14 @@ public class DeckBuilder {
 		card = new LuckCard(game, false, false, -50, "Revés:\n Seus filhos já vão para a escola. Pague a primeira mensalidade.");
 		deck.add(card);
 		card = new LuckCard(game, false, false, -50, "Revés:\n A geada prejudicou a sua safra de café.");
-		deck.add(card);*/
+		deck.add(card);
+		
+		
+		card = new LuckCard(game, true, false, 0, "Sorte:\n Avance até o ponto de partida (ganha 200!)", false, true);
+		deck.add(card);
+		card = new LuckCard(game, true, false, 0, "Sorte:\n Você apostou com os parceiros deste jogo e ganhou.");
+		deck.add(card);
+		*/
 
 		
 		/* Carta de saída livre da prisão - sorte */

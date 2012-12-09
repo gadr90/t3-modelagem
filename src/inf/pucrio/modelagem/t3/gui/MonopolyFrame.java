@@ -257,10 +257,16 @@ public class MonopolyFrame extends JFrame implements Observer {
 				else {
 					try {
 						numberOfPositions = Integer.parseInt(result);
+						if (numberOfPositions > 40)
+							throw new IllegalArgumentException();
+
+						Main.game.startTurn(numberOfPositions, false);	
 				    } catch (NumberFormatException exception) {
 				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
 				    }
-					Main.game.startTurn(numberOfPositions, false);					
+					catch (IllegalArgumentException exception2) {
+				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que 40!");
+					}
 				}
 				
 			} else {

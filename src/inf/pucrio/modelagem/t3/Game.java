@@ -8,6 +8,7 @@ import inf.pucrio.modelagem.t3.tile.LuckTile;
 import inf.pucrio.modelagem.t3.tile.MoneyTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 import inf.pucrio.modelagem.t3.tile.PrisonTile;
+import inf.pucrio.modelagem.t3.tile.PropertyTile;
 import inf.pucrio.modelagem.t3.utils.BoardBuilder;
 import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
@@ -234,6 +235,19 @@ public class Game extends Observable {
 
 	public void setLuckDeck(Queue<LuckCard> luckDeck) {
 		this.luckDeck = luckDeck;
+	}
+	
+	public List<PropertyTile> getAllPropertiesWithColor(Color color) {
+		ArrayList<PropertyTile> tiles = new ArrayList<PropertyTile>();
+		for (MonopolyTile c : this.getTiles()) {
+			if (c instanceof PropertyTile) {
+				PropertyTile t = (PropertyTile) c;
+				if (t.getCard().getColor().equals(color)) {
+					tiles.add(t);
+				}
+			}
+		}
+		return tiles;
 	}
 	
 }

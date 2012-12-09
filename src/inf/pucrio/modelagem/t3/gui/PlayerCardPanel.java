@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PlayerCardPanel extends JPanel {
@@ -47,7 +48,7 @@ public class PlayerCardPanel extends JPanel {
 				this.setBackground(propertyCard.getColor());
 				String label = propertyCard.getAddress().length() > 20 ? propertyCard.getAddress().substring(0, 20) + "..." : propertyCard.getAddress(); 
 				this.add(new JLabel(label));
-				housesBuiltLabel = new JLabel(propertyCard.getBuiltHousesNumber() + " Casas");
+				housesBuiltLabel = new JLabel(propertyCard.getLabel());
 				this.add(housesBuiltLabel);
 				JButton button = new JButton("Construir");
 				button.addActionListener(new BuildButtonActionListener());
@@ -66,8 +67,17 @@ public class PlayerCardPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("Pressed build button");
-			propertyCard.buildHouse();
-			housesBuiltLabel.setText(propertyCard.getBuiltHousesNumber() + " Casas");
+			
+			if (propertyCard.build()) {
+				housesBuiltLabel.setText(propertyCard.getLabel());
+				Main.game.updateInterface();
+			}
+			else if (propertyCard.getBuiltHousesNumber() > PropertyCard.MAX_NUMBER_HOUSES) {
+				JOptionPane.showMessageDialog(Main.frame, "Você já construiu tudo que podia aqui!");
+			}
+			else {
+				JOptionPane.showMessageDialog(Main.frame, "Você precisa ser dono de todos os terrenos dessa cor para construir e todas têm que ter um número mínimo de construções!");
+			}
 		}
 	}
 	

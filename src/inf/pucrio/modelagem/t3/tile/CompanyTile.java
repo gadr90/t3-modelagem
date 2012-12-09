@@ -26,6 +26,7 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 			return;
 		
 		if (player.getMoney() < agreedPrice)
+			//TODO Colocar esse throw dentro de AddMoney no player
 			throw new NotEnoughMoneyException("Você não tem dinheiro suficiente para comprar isto!");
 		
 		// É uma venda

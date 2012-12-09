@@ -1,12 +1,16 @@
 package inf.pucrio.modelagem.t3.card;
 
-import java.awt.Color;
-
 import inf.pucrio.modelagem.t3.Game;
+import inf.pucrio.modelagem.t3.Main;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.tile.PropertyTile;
+
+import java.awt.Color;
+import java.util.List;
 
 public class PropertyCard extends MonopolyCard {
 
+	public static final int MAX_NUMBER_HOUSES = 4;
 	//private static Color[] availableColors = {Color.GREEN, Color.DARK_GRAY, Color.BLUE, Color.CYAN, Color.magenta, Color.RED, Color.orange, Color.YELLOW};
 	private Color color;
 	private String address;
@@ -140,10 +144,40 @@ public class PropertyCard extends MonopolyCard {
 	public int getBuiltHousesNumber() {
 		return builtHousesNumber;
 	}
+	
+	public boolean playerOwnsAllProperties(Player player, List<PropertyTile> properties) {
+		for (PropertyTile t : properties) {
+			if (t.getOwner() != player) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean checkMinimumHousesBuilt(List<PropertyTile> properties, int numberOfHouses) {
+		for (PropertyTile t : properties) {
+			if (t.getCard().getBuiltHousesNumber() < numberOfHouses) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-	public void buildHouse() {
-		//TODO Só pode construir a segunda casa ao ser dono de todos os terrenos dessa cor.
-		this.builtHousesNumber++;
+	public boolean build() {
+		List<PropertyTile> likeColoredProperties = Main.game.getAllPropertiesWithColor(this.getColor());
+		boolean ownsLikeColoredProperties = playerOwnsAllProperties(getOwner(), likeColoredProperties);
+		boolean minimumHousesBuilt = checkMinimumHousesBuilt(likeColoredProperties, this.getBuiltHousesNumber());
+		
+		if (ownsLikeColoredProperties && minimumHousesBuilt && this.getBuiltHousesNumber() <= MAX_NUMBER_HOUSES) {
+			this.builtHousesNumber++;
+			this.getOwner().addMoney( - this.getConstructionValue());
+			return true;
+		}
+		return false;
+	}
+
+	public String getLabel() {
+		return this.getBuiltHousesNumber() > 4 ? (this.getBuiltHousesNumber() - 1) + " Casas e 1 Hotel" : this.getBuiltHousesNumber() + " Casas";
 	}
 
 }
