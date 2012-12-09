@@ -232,6 +232,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 				break;
 			}
 		}
+		
+		this.repaint();
 	}
 
 	public Game getGame() {
@@ -343,8 +345,6 @@ public class MonopolyFrame extends JFrame implements Observer {
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
 			}
 			
-			Main.game.updateInterface();
-			
 			JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
 			
 			if (card.isPrison() && card.isGoodLuck()) {
@@ -354,6 +354,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 				//Insere no final
 				Main.game.getLuckDeck().add(card);
 			}
+			
+			Main.game.updateInterface();
 			
 		}
 	}

@@ -13,6 +13,7 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 			int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
 		super(index, game);
 		card = new CompanyCard(game, name, saleValue, mortgageValue, rentalValueFactor, owner);
+		this.card.setTile(this);
 	}
 
 	@Override

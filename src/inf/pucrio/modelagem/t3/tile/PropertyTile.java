@@ -23,6 +23,7 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 				constructionValue, mortgageValue, noConstructionRent,
 				oneHouseRent, twoHousesRent, threeHousesRent, fourHousesRent,
 				hotelRent, owner, color);
+		this.card.setTile(this);
 	}
 
 	@Override

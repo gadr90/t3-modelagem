@@ -2,6 +2,7 @@ package inf.pucrio.modelagem.t3.card;
 
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Player;
+import inf.pucrio.modelagem.t3.tile.CompanyTile;
 
 public class CompanyCard extends MonopolyCard {
 	
@@ -10,6 +11,7 @@ public class CompanyCard extends MonopolyCard {
 	private int mortgageValue;
 	private int rentalValueFactor;
 	private Player owner;
+	private CompanyTile tile;
 
 	public CompanyCard(Game game, String name,
 			int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
@@ -60,6 +62,14 @@ public class CompanyCard extends MonopolyCard {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 		this.owner.getDeck().add(this);
+	}
+
+	public CompanyTile getTile() {
+		return tile;
+	}
+
+	public void setTile(CompanyTile tile) {
+		this.tile = tile;
 	}
 
 	

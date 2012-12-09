@@ -251,4 +251,10 @@ public class Game extends Observable {
 		return tiles;
 	}
 	
+	public Player findPlayerByName(String name) {
+		for (Player p : this.getPlayers())
+			if (p.getPlayerName().equals(name)) return p;
+		
+		return null;
+	}
 }

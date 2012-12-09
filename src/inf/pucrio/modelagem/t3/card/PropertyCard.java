@@ -25,6 +25,7 @@ public class PropertyCard extends MonopolyCard {
 	private int fourHousesRent;
 	private int hotelRent;
 	private int builtHousesNumber;
+	private PropertyTile tile;
 	private Player owner;
 	private HashMap<Integer, Integer> rentMap;
 	
@@ -185,6 +186,14 @@ public class PropertyCard extends MonopolyCard {
 
 	public HashMap<Integer, Integer> getRentMap() {
 		return rentMap;
+	}
+
+	public PropertyTile getTile() {
+		return tile;
+	}
+
+	public void setTile(PropertyTile tile) {
+		this.tile = tile;
 	}
 
 }
