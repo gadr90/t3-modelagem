@@ -131,6 +131,25 @@ public class Player {
 
 	public void setArrested(boolean arrested) {
 		this.arrested = arrested;
+		// Se o jogador saiu da prisão, reset o número de double rolls
+		if (this.arrested == false) {
+			this.doubleRolls = 0;
+			this.turnsArrested = 0;
+		}
 	}
+
+	public int getTurnsArrested() {
+		return turnsArrested;
+	}
+
+	public void setTurnsArrested(int turnsArrested) {
+		this.turnsArrested = turnsArrested;
+	}
+
+	public void addTurnArrested() {
+		this.turnsArrested++;		
+	}
+	
+	
 
 }

@@ -1,5 +1,6 @@
 package inf.pucrio.modelagem.t3.gui;
 
+import inf.pucrio.modelagem.t3.Main;
 import inf.pucrio.modelagem.t3.card.CompanyCard;
 import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
@@ -33,8 +34,13 @@ public class PlayerCardPanel extends JPanel {
 		luckCard = card instanceof LuckCard ? (LuckCard) card : null;
 		
 		if (luckCard != null) {
+			JButton button = new JButton("Sair da prisão");
+			button.addActionListener(new LuckButtonActionListener());
 			this.add(new JLabel("Saída livre da prisão"));
-			this.add(new JButton("Sair da prisão"));
+			this.add(button);
+			if (!Main.game.getCurrentPlayer().isArrested()) {
+				button.setEnabled(false);
+			}
 		}
 		else {
 			if (propertyCard != null) {
@@ -62,6 +68,17 @@ public class PlayerCardPanel extends JPanel {
 			System.out.println("Pressed build button");
 			propertyCard.buildHouse();
 			housesBuiltLabel.setText(propertyCard.getBuiltHousesNumber() + " Casas");
+		}
+	}
+	
+	class LuckButtonActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Pressed get out of jail button");
+			Main.game.getCurrentPlayer().getDeck().remove(luckCard);
+			Main.game.getLuckDeck().add(luckCard);
+			Main.game.getCurrentPlayer().setArrested(false);
+			Main.game.updateInterface();
 		}
 	}
 	

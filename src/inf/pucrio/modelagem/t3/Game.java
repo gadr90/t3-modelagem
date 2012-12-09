@@ -26,6 +26,10 @@ import java.util.Queue;
  */
 public class Game extends Observable {
 
+	private static final int TURNS_SINCE_ARREST_FREEDOM = 4;
+
+	private static final int PRISON_FEE = 50;
+
 	public static final boolean DEBUG = true;
 	
 	public static final int NUMBER_OF_PLAYERS = 6;
@@ -72,18 +76,29 @@ public class Game extends Observable {
 		Player currentPlayer = getCurrentPlayer();
 		
 		if (DEBUG) {
-			totalRoll = numberOfPositions;
+			dice.currentRollTotal = numberOfPositions;
+			dice.currentRoll1 = (int) Math.floor((float)numberOfPositions/2);
+			dice.currentRoll2 = (int) Math.ceil((float)numberOfPositions/2);
+			dice.isDoubleRoll = doubleRoll;
 		}
 		else {
 			dice.roll();
-			//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
-			if (dice.isDoubleRoll) {
-				currentPlayer.addDoubleRoll();
-			}
-			totalRoll = dice.currentRollTotal;			
+		}
+
+		if (dice.isDoubleRoll) {
+			currentPlayer.addDoubleRoll();
+		}
+		totalRoll = dice.currentRollTotal;	
+		
+		if (currentPlayer.getTurnsArrested() == TURNS_SINCE_ARREST_FREEDOM) {
+			// Jogador já está preso há três rodadas. Ele é liberado e paga 50.
+			currentPlayer.addMoney( - PRISON_FEE);
+			currentPlayer.setArrested(false);
 		}
 		
-		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
+		if (!currentPlayer.isArrested()) {
+			currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
+		}
 		currentTurn++;
 		updateInterface();
 		
@@ -108,9 +123,14 @@ public class Game extends Observable {
 	public void finishTurn() {
 		System.out.println("Finishing turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = false;
-		this.getCurrentPlayer().setDoubleRollsThisTurn(0);
-		this.getCurrentPlayer().setLuckCardDrawn(false);
+		Player currentPlayer = this.getCurrentPlayer();
+		currentPlayer.setDoubleRollsThisTurn(0);
+		currentPlayer.setLuckCardDrawn(false);
 
+		if (currentPlayer.isArrested()) {
+			currentPlayer.addTurnArrested();
+		}
+		
 		currentPlayerIndex++;
 		if (currentPlayerIndex > 5)
 			currentPlayerIndex = 0;
