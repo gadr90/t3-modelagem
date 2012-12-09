@@ -15,6 +15,7 @@ public class Player {
 	private int doubleRolls = 0;
 	private boolean luckCardDrawn = false;
 	private boolean arrested = false;
+	private int turnsArrested = 0;
 	private Color color;
 	private String playerName;
 	private int money;
