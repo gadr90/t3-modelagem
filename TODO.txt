@@ -1,7 +1,4 @@
-﻿-> Se o jogador cair no campo "Vá pra prisão" ou se tirar 3 duplas seguidas, irá para a prisão.
-	- Se, porém, alcançar a prisão em lances regulares será considerado visitante e poderá continuar normalmente o jogo quando chegar sua vez.
-	- O jogador só poderá sair da prisão se conseguir numa das suas 3 próximas jogadas tirar uma dupla. Se não conseguir, na 4ª jogada pagará 50 reais ao banqueiro e andará o número de pontos conseguidos nos dados.
-	- Ele também pode sair da prisão se tiver o cartão "Saída Livre da Prisão".
+﻿-> Se jogador não conseguir sair da prisão na 4ª jogada, pagará 50 reais ao banqueiro e andará o número de pontos conseguidos nos dados.
 	
 -> Implementar ação da luckCard de saída da prisão.
 	- Player pode guardá-la e usá-la quando julgar necessário para sair da prisão.
