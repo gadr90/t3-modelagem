@@ -26,9 +26,12 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 	}
 
 	@Override
-	public void collectTax(Player player) {
-		// TODO: Checar n�mero de constru��es e cobrar de acordo com respectivo
-		// valor
+	public void collectRent(Player player) {
+		if (this.getOwner() == null) return;
+		
+		int rent = this.getCard().getRentMap().get(this.getCard().getBuiltHousesNumber());
+		player.addMoney( - rent);
+		this.getOwner().addMoney(rent);
 	}
 
 	@Override

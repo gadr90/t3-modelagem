@@ -16,8 +16,12 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 	}
 
 	@Override
-	public void collectTax(Player player) {
-		// TODO: Multiplicar n�mero tirado nos dados pelo rentalValueFactor
+	public void collectRent(Player player) {
+		if (this.getOwner() == null) return;
+		
+		int rent = (this.getCard().getRentalValueFactor() * player.getCurrentRoll());
+		player.addMoney( - rent);
+		this.getOwner().addMoney(rent);
 	}
 
 	@Override

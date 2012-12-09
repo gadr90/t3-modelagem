@@ -6,6 +6,7 @@ import inf.pucrio.modelagem.t3.Player;
 import inf.pucrio.modelagem.t3.tile.PropertyTile;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.List;
 
 public class PropertyCard extends MonopolyCard {
@@ -25,6 +26,7 @@ public class PropertyCard extends MonopolyCard {
 	private int hotelRent;
 	private int builtHousesNumber;
 	private Player owner;
+	private HashMap<Integer, Integer> rentMap;
 	
 	public PropertyCard(Game game, String address, int saleValue, int constructionValue, int mortgageValue, 
 						int noConstructionRent, int oneHouseRent, int twoHousesRent, int threeHousesRent,
@@ -35,12 +37,13 @@ public class PropertyCard extends MonopolyCard {
 		this.saleValue = saleValue;
 		this.constructionValue = constructionValue;
 		this.mortgageValue = mortgageValue;
-		this.noConstructionRent = noConstructionRent;
-		this.oneHouseRent = oneHouseRent;
-		this.twoHousesRent = twoHousesRent;
-		this.threeHousesRent = threeHousesRent;
-		this.fourHousesRent = fourHousesRent;
-		this.hotelRent = hotelRent;
+		this.rentMap = new HashMap<Integer, Integer>();
+		this.rentMap.put(0, noConstructionRent);
+		this.rentMap.put(1, oneHouseRent);
+		this.rentMap.put(2, twoHousesRent);
+		this.rentMap.put(3, threeHousesRent);
+		this.rentMap.put(4, fourHousesRent);
+		this.rentMap.put(5, hotelRent);
 		this.color = color;
 	}
 
@@ -178,6 +181,10 @@ public class PropertyCard extends MonopolyCard {
 
 	public String getLabel() {
 		return this.getBuiltHousesNumber() > 4 ? (this.getBuiltHousesNumber() - 1) + " Casas e 1 Hotel" : this.getBuiltHousesNumber() + " Casas";
+	}
+
+	public HashMap<Integer, Integer> getRentMap() {
+		return rentMap;
 	}
 
 }

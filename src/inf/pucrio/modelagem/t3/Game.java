@@ -89,7 +89,8 @@ public class Game extends Observable {
 		if (dice.isDoubleRoll) {
 			currentPlayer.addDoubleRoll();
 		}
-		totalRoll = dice.currentRollTotal;	
+		totalRoll = dice.currentRollTotal;
+		currentPlayer.setCurrentRoll(totalRoll);
 		
 		if (currentPlayer.getTurnsArrested() == TURNS_SINCE_ARREST_FREEDOM) {
 			// Jogador já está preso há três rodadas. Ele é liberado e paga 50.
@@ -101,24 +102,24 @@ public class Game extends Observable {
 			currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
 		}
 		currentTurn++;
-		updateInterface();
 		
-		//TODO Melhorar a logica de qual tile o player est�
 		if (currentPlayer.getCurrentTile() instanceof FreeStopTile) {
 			System.out.println("Caiu em tile sem ação");
-			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof PrisonTile) {
 			System.out.println("Caiu em tile sem ação");
-			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof MoneyTile) {
-			System.out.println("Caiu em tile sem ação");
+			System.out.println("Caiu em tile de dinheiro");
 			MoneyTile tile = (MoneyTile) currentPlayer.getCurrentTile();
 			currentPlayer.addMoney(tile.getValue());
-			updateInterface();
+		} else if (currentPlayer.getCurrentTile() instanceof ITaxableTile) {
+			System.out.println("Pagou aluguel!");
+			ITaxableTile tile = (ITaxableTile) currentPlayer.getCurrentTile();
+			tile.collectRent(currentPlayer);
 		}
 
+		updateInterface();
 	}
 	
 	public void finishTurn() {
