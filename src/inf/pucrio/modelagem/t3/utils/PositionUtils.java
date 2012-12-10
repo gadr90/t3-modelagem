@@ -88,6 +88,7 @@ public class PositionUtils {
 		}
 	}
 
+	
 	public static void drawDebugLines(JComponent jComponent, Graphics2D g2d, boolean clear) {
 		g2d.setColor(Color.orange);
 		g2d.setStroke(new BasicStroke(2));
@@ -95,13 +96,13 @@ public class PositionUtils {
         Dimension size = jComponent.getSize();
         Insets insets = jComponent.getInsets();
         int w = size.width - insets.left - insets.right;
-        int h = size.height - insets.top - insets.bottom;
          
-        /*for(int i=100; i<w - TILE_SIZE_PIXELS; i=i+TILE_SIZE_PIXELS)
+        for(int i=100; i<w - TILE_SIZE_PIXELS; i=i+TILE_SIZE_PIXELS)
         {
             g2d.drawLine(0, i, BOARD_SIZE_PIXELS, i);
             g2d.drawLine(i, 0, i, BOARD_SIZE_PIXELS);
-        }*/
-        //g2d.clearRect(100, 100, 450, 450);
+        }
+        g2d.clearRect(100, 100, 450, 450);
 	}
+	
 }

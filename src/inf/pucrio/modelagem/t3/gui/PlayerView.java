@@ -9,6 +9,10 @@ import javax.swing.JLabel;
 
 public class PlayerView extends JLabel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Color color;
 
 	public PlayerView(Color c) {

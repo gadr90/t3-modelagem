@@ -3,17 +3,13 @@ package inf.pucrio.modelagem.t3.gui;
 import inf.pucrio.modelagem.t3.Action;
 import inf.pucrio.modelagem.t3.Game;
 import inf.pucrio.modelagem.t3.Main;
-import inf.pucrio.modelagem.t3.NotEnoughMoneyException;
 import inf.pucrio.modelagem.t3.Player;
-import inf.pucrio.modelagem.t3.card.LuckCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
 import inf.pucrio.modelagem.t3.tile.ITaxableTile;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -30,7 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -127,12 +122,13 @@ public class MonopolyFrame extends JFrame implements Observer {
 			ImageIcon icon = new ImageIcon(image);
 			JLabel picLabel = new JLabel(icon) {
 				private static final long serialVersionUID = 1L;
-
+				/*
 				public void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					Graphics2D g2d = (Graphics2D) g;
 					PositionUtils.drawDebugLines(this, g2d, false);
 				}
+				*/
 			};
 			picLabel.setSize(650, 650);
 			picLabel.setVisible(true);
@@ -247,33 +243,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed roll dice button");
-			int numberOfPositions = 0;
-			
-			if (Game.DEBUG) {
-				String result = JOptionPane.showInputDialog(Main.frame, "Numero de tiles a andar?");
-				if (result == null)
-					return;
-				if (result.equals("double"))  {
-					Main.game.startTurn(6, true);
-				}
-				else {
-					try {
-						numberOfPositions = Integer.parseInt(result);
-						if (numberOfPositions > 40)
-							throw new IllegalArgumentException();
-
-						Main.game.startTurn(numberOfPositions, false);	
-				    } catch (NumberFormatException exception) {
-				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
-				    }
-					catch (IllegalArgumentException exception2) {
-				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que 40!");
-					}
-				}
-				
-			} else {
-				Main.game.startTurn();				
-			}
+			Main.game.rollDice();
 						
 		}
 	}
@@ -284,32 +254,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 			if (!buyButton.isEnabled())
 				return;
 
-			Player player = Main.game.getCurrentPlayer();
-			ITaxableTile tile = ((ITaxableTile) player.getCurrentTile());
-			String result = null;
 			System.out.println("Pressed buy terrain button");
-			//Tem dono
-			if (tile.getOwner() != null) {
-				result = JOptionPane.showInputDialog(Main.frame, "Deseja vender esse terreno por quanto, " + tile.getOwner().getPlayerName() + "?");
-				if (result == null)
-					return;
-				
-				try {
-			        int price = Integer.parseInt(result);
-			        tile.buy(player, price);
-			    } catch (NumberFormatException exception) {
-			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
-			    } catch (NotEnoughMoneyException e1) {
-			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
-				}
-			}
-			else {
-				try {
-					tile.buy(player);
-				} catch (NotEnoughMoneyException e1) {
-			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
-				}
-			}
+			Main.game.buyTerrain();
 		}
 	}
 	
@@ -320,43 +266,7 @@ public class MonopolyFrame extends JFrame implements Observer {
 				return;
 			
 			System.out.println("Pressed draw card button");
-			LuckCard card = Main.game.getLuckDeck().poll();
-			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
-			
-			//Trata o caso de retirar o dinheiro dos demais jogadores.
-			if (card.isBetCard()) {
-				for (Player p : Main.game.getPlayers()) {
-					if (p != Main.game.getCurrentPlayer()) {
-						p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
-					}
-				}
-			}
-			// Carta de vá para início
-			else if (card.isStartCard()){
-				Main.game.getCurrentPlayer().setCurrentIndex(Game.START_TILE_INDEX_WIN_MONEY);
-			}
-			// Carta de vá para prisão
-			else if (card.isPrison() && !card.isGoodLuck()) {
-				Main.game.getCurrentPlayer().setArrested(true);
-				Main.game.getCurrentPlayer().setCurrentIndex(Game.PRISON_TILE_INDEX);					
-			}
-			
-			if (card.getValue() != 0) {
-				Main.game.getCurrentPlayer().addMoney(card.getValue());
-			}
-			
-			JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
-			
-			if (card.isPrison() && card.isGoodLuck()) {
-				Main.game.getCurrentPlayer().getDeck().add(card);
-			}
-			else {
-				//Insere no final
-				Main.game.getLuckDeck().add(card);
-			}
-			
-			Main.game.updateInterface();
-			
+			Main.game.drawCard();
 		}
 	}
 	

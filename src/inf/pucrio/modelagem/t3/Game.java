@@ -293,4 +293,102 @@ public class Game extends Observable {
 			System.exit(0);
 		}
 	}
+
+	public void buyTerrain() {
+			Player player = this.getCurrentPlayer();
+			ITaxableTile tile = ((ITaxableTile) player.getCurrentTile());
+			String result = null;
+			//Tem dono
+			if (tile.getOwner() != null) {
+				result = JOptionPane.showInputDialog(Main.frame, "Deseja vender esse terreno por quanto, " + tile.getOwner().getPlayerName() + "?");
+				if (result == null)
+					return;
+				
+				try {
+			        int price = Integer.parseInt(result);
+			        tile.buy(player, price);
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    } catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
+			}
+			else {
+				try {
+					tile.buy(player);
+				} catch (NotEnoughMoneyException e1) {
+			    	JOptionPane.showMessageDialog(Main.frame, e1.getMessage());
+				}
+			}
+		}
+
+
+	public void drawCard() {
+		LuckCard card = this.getLuckDeck().poll();
+		this.getCurrentPlayer().setLuckCardDrawn(true);
+		
+		//Trata o caso de retirar o dinheiro dos demais jogadores.
+		if (card.isBetCard()) {
+			for (Player p : this.getPlayers()) {
+				if (p != this.getCurrentPlayer()) {
+					p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
+				}
+			}
+		}
+		// Carta de vá para início
+		else if (card.isStartCard()){
+			this.getCurrentPlayer().setCurrentIndex(START_TILE_INDEX_WIN_MONEY);
+		}
+		// Carta de vá para prisão
+		else if (card.isPrison() && !card.isGoodLuck()) {
+			this.getCurrentPlayer().setArrested(true);
+			this.getCurrentPlayer().setCurrentIndex(PRISON_TILE_INDEX);					
+		}
+		
+		if (card.getValue() != 0) {
+			this.getCurrentPlayer().addMoney(card.getValue());
+		}
+		
+		JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
+		
+		if (card.isPrison() && card.isGoodLuck()) {
+			this.getCurrentPlayer().getDeck().add(card);
+		}
+		else {
+			//Insere no final
+			this.getLuckDeck().add(card);
+		}
+		
+		this.updateInterface();
+	}
+
+	public void rollDice() {
+		int numberOfPositions = 0;
+		
+		if (DEBUG) {
+			String result = JOptionPane.showInputDialog(Main.frame, "Numero de tiles a andar?");
+			if (result == null)
+				return;
+			if (result.equals("double"))  {
+				this.startTurn(6, true);
+			}
+			else {
+				try {
+					numberOfPositions = Integer.parseInt(result);
+					if (numberOfPositions > 40)
+						throw new IllegalArgumentException();
+
+					this.startTurn(numberOfPositions, false);	
+			    } catch (NumberFormatException exception) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+			    }
+				catch (IllegalArgumentException exception2) {
+			    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que 40!");
+				}
+			}
+			
+		} else {
+			this.startTurn();				
+		}
+	}
 }
