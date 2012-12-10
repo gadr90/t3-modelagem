@@ -21,6 +21,7 @@ public class Player {
 	private int money;
 	private Game game;
 	private List<MonopolyCard> deck;
+	private int currentRoll = 0;
 	
 	public Player(Color color, String playerName, Game game) {
 		this.color = color;
@@ -131,6 +132,33 @@ public class Player {
 
 	public void setArrested(boolean arrested) {
 		this.arrested = arrested;
+		// Se o jogador saiu da prisão, reset o número de double rolls
+		if (this.arrested == false) {
+			this.doubleRolls = 0;
+			this.turnsArrested = 0;
+		}
 	}
+
+	public int getTurnsArrested() {
+		return turnsArrested;
+	}
+
+	public void setTurnsArrested(int turnsArrested) {
+		this.turnsArrested = turnsArrested;
+	}
+
+	public void addTurnArrested() {
+		this.turnsArrested++;		
+	}
+
+	public int getCurrentRoll() {
+		return this.currentRoll;
+	}
+	
+	public void setCurrentRoll(int value) {
+		this.currentRoll = value;
+	}
+	
+	
 
 }

@@ -51,6 +51,7 @@ public class CardPanel extends JPanel {
 
 			text.append("Companhia: " + companyCard.getName() + "\n\n");
 			text.append("Valor: " + companyCard.getSaleValue() + "\n\n");
+			text.append("Aluguel: Número dos dados * " + companyCard.getRentalValueFactor() + "\n\n");
 		}
 		else if (propertyCard != null) {
 			if (propertyCard.getOwner() != null)
@@ -58,6 +59,12 @@ public class CardPanel extends JPanel {
 
 			text.append("Propriedade: " + propertyCard.getAddress() + "\n\n");
 			text.append("Valor: " + propertyCard.getSaleValue() + "\n\n");
+			text.append("Aluguel sem construções: " + propertyCard.getRentMap().get(0) + "\n\n");
+			text.append("Aluguel com 1 casa: " + propertyCard.getRentMap().get(1) + "\n\n");
+			text.append("Aluguel com 2 casas: " + propertyCard.getRentMap().get(2) + "\n\n");
+			text.append("Aluguel com 3 casas: " + propertyCard.getRentMap().get(3) + "\n\n");
+			text.append("Aluguel com 4 casas: " + propertyCard.getRentMap().get(4) + "\n\n");
+			text.append("Aluguel com 4 casas e 1 hotel: " + propertyCard.getRentMap().get(5) + "\n\n");
 		}
 	}
 

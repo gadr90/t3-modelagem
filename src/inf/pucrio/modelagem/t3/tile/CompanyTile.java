@@ -13,11 +13,16 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 			int saleValue, int mortgageValue, int rentalValueFactor, Player owner) {
 		super(index, game);
 		card = new CompanyCard(game, name, saleValue, mortgageValue, rentalValueFactor, owner);
+		this.card.setTile(this);
 	}
 
 	@Override
-	public void collectTax(Player player) {
-		// TODO: Multiplicar n�mero tirado nos dados pelo rentalValueFactor
+	public void collectRent(Player player) {
+		if (this.getOwner() == null) return;
+		
+		int rent = (this.getCard().getRentalValueFactor() * player.getCurrentRoll());
+		player.addMoney( - rent);
+		this.getOwner().addMoney(rent);
 	}
 
 	@Override
@@ -26,6 +31,7 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 			return;
 		
 		if (player.getMoney() < agreedPrice)
+			//TODO Colocar esse throw dentro de AddMoney no player
 			throw new NotEnoughMoneyException("Você não tem dinheiro suficiente para comprar isto!");
 		
 		// É uma venda

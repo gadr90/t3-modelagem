@@ -8,6 +8,7 @@ import inf.pucrio.modelagem.t3.tile.LuckTile;
 import inf.pucrio.modelagem.t3.tile.MoneyTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
 import inf.pucrio.modelagem.t3.tile.PrisonTile;
+import inf.pucrio.modelagem.t3.tile.PropertyTile;
 import inf.pucrio.modelagem.t3.utils.BoardBuilder;
 import inf.pucrio.modelagem.t3.utils.DeckBuilder;
 import inf.pucrio.modelagem.t3.utils.PositionUtils;
@@ -19,12 +20,18 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Queue;
 
+import javax.swing.JOptionPane;
+
 /** 
  * Controlador do Jogo
  * @author Guilherme
  *
  */
 public class Game extends Observable {
+
+	private static final int TURNS_SINCE_ARREST_FREEDOM = 4;
+
+	private static final int PRISON_FEE = 50;
 
 	public static final boolean DEBUG = true;
 	
@@ -47,9 +54,24 @@ public class Game extends Observable {
 		Color[] availableColors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.magenta, Color.RED, Color.YELLOW};
 		String[] colorNames = {"Azul", "Ciano", "Verde", "Magenta", "Vermelho", "Amarelo"};
 		int i = 0;
+		int numberOfPlayers = 0;
+		String message = "Quantas pessoas vão jogar? Máximo: 6";
+		while (numberOfPlayers == 0) {
+			try {
+				numberOfPlayers = Integer.parseInt(JOptionPane.showInputDialog(message));
+				if (numberOfPlayers > 6)
+					throw new IllegalArgumentException();
+		    } catch (NumberFormatException exception) {
+		    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+		    }
+			catch (IllegalArgumentException exception2) {
+		    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que  ou igual a 6!");
+			}
+		}			
+		
 		//Adiciona os players
-		for (Color c : availableColors) {
-			Player player = new Player(c, colorNames[i++], this);
+		for (i = 0; i < numberOfPlayers; i++) {
+			Player player = new Player(availableColors[i], colorNames[i], this);
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);
@@ -72,47 +94,64 @@ public class Game extends Observable {
 		Player currentPlayer = getCurrentPlayer();
 		
 		if (DEBUG) {
-			totalRoll = numberOfPositions;
+			dice.currentRollTotal = numberOfPositions;
+			dice.currentRoll1 = (int) Math.floor((float)numberOfPositions/2);
+			dice.currentRoll2 = (int) Math.ceil((float)numberOfPositions/2);
+			dice.isDoubleRoll = doubleRoll;
 		}
 		else {
 			dice.roll();
-			//TODO checar se s�o iguais, aumentar contador no player, permitir outro roll.
-			if (dice.isDoubleRoll) {
-				currentPlayer.addDoubleRoll();
-			}
-			totalRoll = dice.currentRollTotal;			
+		}
+
+		if (dice.isDoubleRoll) {
+			currentPlayer.addDoubleRoll();
+		}
+		totalRoll = dice.currentRollTotal;
+		currentPlayer.setCurrentRoll(totalRoll);
+		
+		if (currentPlayer.getTurnsArrested() == TURNS_SINCE_ARREST_FREEDOM) {
+			// Jogador já está preso há três rodadas. Ele é liberado e paga 50.
+			currentPlayer.addMoney( - PRISON_FEE);
+			currentPlayer.setArrested(false);
 		}
 		
-		currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
+		if (!currentPlayer.isArrested()) {
+			currentPlayer.setCurrentIndex( currentPlayer.getCurrentIndex() + totalRoll );
+		}
 		currentTurn++;
-		updateInterface();
 		
-		//TODO Melhorar a logica de qual tile o player est�
 		if (currentPlayer.getCurrentTile() instanceof FreeStopTile) {
 			System.out.println("Caiu em tile sem ação");
-			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof PrisonTile) {
 			System.out.println("Caiu em tile sem ação");
-			updateInterface();
 		}
 		else if (currentPlayer.getCurrentTile() instanceof MoneyTile) {
-			System.out.println("Caiu em tile sem ação");
+			System.out.println("Caiu em tile de dinheiro");
 			MoneyTile tile = (MoneyTile) currentPlayer.getCurrentTile();
 			currentPlayer.addMoney(tile.getValue());
-			updateInterface();
+		} else if (currentPlayer.getCurrentTile() instanceof ITaxableTile) {
+			System.out.println("Pagou aluguel!");
+			ITaxableTile tile = (ITaxableTile) currentPlayer.getCurrentTile();
+			tile.collectRent(currentPlayer);
 		}
 
+		updateInterface();
 	}
 	
 	public void finishTurn() {
 		System.out.println("Finishing turn " + currentTurn + " for player " + currentPlayerIndex);
 		this.turnStarted = false;
-		this.getCurrentPlayer().setDoubleRollsThisTurn(0);
-		this.getCurrentPlayer().setLuckCardDrawn(false);
+		Player currentPlayer = this.getCurrentPlayer();
+		currentPlayer.setDoubleRollsThisTurn(0);
+		currentPlayer.setLuckCardDrawn(false);
 
+		if (currentPlayer.isArrested()) {
+			currentPlayer.addTurnArrested();
+		}
+		
 		currentPlayerIndex++;
-		if (currentPlayerIndex > 5)
+		if (currentPlayerIndex == this.getPlayers().size())
 			currentPlayerIndex = 0;
 		
 		updateInterface();
@@ -181,7 +220,7 @@ public class Game extends Observable {
 	}
 	
 	public Player getLastPlayer() {
-		return this.players.get(this.currentPlayerIndex > 0 ? this.currentPlayerIndex - 1 : 5);
+		return this.players.get(this.currentPlayerIndex > 0 ? this.currentPlayerIndex - 1 : this.getPlayers().size() - 1);
 	}
 
 	public int getCurrentRoll1() {
@@ -216,4 +255,23 @@ public class Game extends Observable {
 		this.luckDeck = luckDeck;
 	}
 	
+	public List<PropertyTile> getAllPropertiesWithColor(Color color) {
+		ArrayList<PropertyTile> tiles = new ArrayList<PropertyTile>();
+		for (MonopolyTile c : this.getTiles()) {
+			if (c instanceof PropertyTile) {
+				PropertyTile t = (PropertyTile) c;
+				if (t.getCard().getColor().equals(color)) {
+					tiles.add(t);
+				}
+			}
+		}
+		return tiles;
+	}
+	
+	public Player findPlayerByName(String name) {
+		for (Player p : this.getPlayers())
+			if (p.getPlayerName().equals(name)) return p;
+		
+		return null;
+	}
 }

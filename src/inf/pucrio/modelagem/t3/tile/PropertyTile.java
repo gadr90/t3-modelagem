@@ -23,12 +23,16 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 				constructionValue, mortgageValue, noConstructionRent,
 				oneHouseRent, twoHousesRent, threeHousesRent, fourHousesRent,
 				hotelRent, owner, color);
+		this.card.setTile(this);
 	}
 
 	@Override
-	public void collectTax(Player player) {
-		// TODO: Checar n�mero de constru��es e cobrar de acordo com respectivo
-		// valor
+	public void collectRent(Player player) {
+		if (this.getOwner() == null) return;
+		
+		int rent = this.getCard().getRentMap().get(this.getCard().getBuiltHousesNumber());
+		player.addMoney( - rent);
+		this.getOwner().addMoney(rent);
 	}
 
 	@Override
@@ -41,6 +45,12 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 		
 		// É uma venda
 		if (this.getOwner() != null) {
+			// Trata o caso do terreno ter construções. Todas devem ser vendidas para o banco pela metade do preço para que depois a negociação seja concretizada.
+			while(this.getCard().getBuiltHousesNumber() > 0) {
+				this.getOwner().addMoney(this.getCard().getRentMap().get(this.getCard().getBuiltHousesNumber())/2);
+				this.getCard().setBuildHousesNumber(this.getCard().getBuiltHousesNumber() - 1);
+			}
+			
 			this.getOwner().getDeck().remove(this.card);
 			this.getOwner().addMoney( agreedPrice );
 		}

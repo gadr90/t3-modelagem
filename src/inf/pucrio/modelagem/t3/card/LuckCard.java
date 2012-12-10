@@ -4,12 +4,12 @@ import inf.pucrio.modelagem.t3.Game;
 
 public class LuckCard extends MonopolyCard {
 
-	public static int BET_LUCK_CARD = 0xABCDEF;
-	public static int START_LUCK_CARD = 0xFEDCBA;
 	public static int BET_LUCK_CARD_VALUE = 50;
 	
 	private boolean goodLuck;
 	private boolean prison;
+	private boolean betCard;
+	private boolean startCard;
 	private int value;
 	private String description;
 	
@@ -20,6 +20,15 @@ public class LuckCard extends MonopolyCard {
 		this.prison = prison;
 		this.value = value;
 		this.description = description;
+		this.betCard = false;
+		this.startCard = false;
+	}
+	
+	public LuckCard(Game game, boolean goodLuck, boolean prison, int value,
+			String description, boolean betCard, boolean startCard) {
+		this(game, goodLuck, prison, value, description);
+		this.betCard = betCard;
+		this.startCard = startCard;
 	}
 
 	public boolean isGoodLuck() {
@@ -40,7 +49,7 @@ public class LuckCard extends MonopolyCard {
 
 	public int getValue() {
 		//Caso especial - a carta de aposta
-		if (this.value == BET_LUCK_CARD) {
+		if (this.betCard) {
 			return (game.getPlayers().size() - 1) * BET_LUCK_CARD_VALUE;
 		}
 		return value;
@@ -51,11 +60,11 @@ public class LuckCard extends MonopolyCard {
 	}
 	
 	public boolean isBetCard() {
-		return this.value == BET_LUCK_CARD;
+		return this.betCard;
 	}
 	
-	public boolean isStartMoveCard() {
-		return this.value == START_LUCK_CARD;
+	public boolean isStartCard() {
+		return this.startCard;
 	}
 
 	public String getDescription() {

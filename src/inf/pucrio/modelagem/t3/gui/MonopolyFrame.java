@@ -232,6 +232,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 				break;
 			}
 		}
+		
+		this.repaint();
 	}
 
 	public Game getGame() {
@@ -257,10 +259,16 @@ public class MonopolyFrame extends JFrame implements Observer {
 				else {
 					try {
 						numberOfPositions = Integer.parseInt(result);
+						if (numberOfPositions > 40)
+							throw new IllegalArgumentException();
+
+						Main.game.startTurn(numberOfPositions, false);	
 				    } catch (NumberFormatException exception) {
 				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
 				    }
-					Main.game.startTurn(numberOfPositions, false);					
+					catch (IllegalArgumentException exception2) {
+				    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que 40!");
+					}
 				}
 				
 			} else {
@@ -314,28 +322,27 @@ public class MonopolyFrame extends JFrame implements Observer {
 			System.out.println("Pressed draw card button");
 			LuckCard card = Main.game.getLuckDeck().poll();
 			Main.game.getCurrentPlayer().setLuckCardDrawn(true);
-			if (card.getValue() != 0) {
-
-				//Trata o caso de retirar o dinheiro dos demais jogadores.
-				if (card.isBetCard()) {
-					for (Player p : Main.game.getPlayers()) {
-						if (p != Main.game.getCurrentPlayer()) {
-							p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
-						}
+			
+			//Trata o caso de retirar o dinheiro dos demais jogadores.
+			if (card.isBetCard()) {
+				for (Player p : Main.game.getPlayers()) {
+					if (p != Main.game.getCurrentPlayer()) {
+						p.addMoney( - LuckCard.BET_LUCK_CARD_VALUE);
 					}
 				}
-				// Carta de vá para início
-				else if (card.isStartMoveCard()){
-					Main.game.getCurrentPlayer().setCurrentIndex(Game.START_TILE_INDEX_WIN_MONEY);
-				}
-				// Carta de vá para prisão
-				else if (card.isPrison() && !card.isGoodLuck()) {
-					Main.game.getCurrentPlayer().setArrested(true);
-					Main.game.getCurrentPlayer().setCurrentIndex(Game.PRISON_TILE_INDEX);					
-				}
-				
+			}
+			// Carta de vá para início
+			else if (card.isStartCard()){
+				Main.game.getCurrentPlayer().setCurrentIndex(Game.START_TILE_INDEX_WIN_MONEY);
+			}
+			// Carta de vá para prisão
+			else if (card.isPrison() && !card.isGoodLuck()) {
+				Main.game.getCurrentPlayer().setArrested(true);
+				Main.game.getCurrentPlayer().setCurrentIndex(Game.PRISON_TILE_INDEX);					
+			}
+			
+			if (card.getValue() != 0) {
 				Main.game.getCurrentPlayer().addMoney(card.getValue());
-				Main.game.updateInterface();
 			}
 			
 			JOptionPane.showMessageDialog(Main.frame, card.getDescription(), "Sorte ou Revés!", JOptionPane.WARNING_MESSAGE);
@@ -347,6 +354,8 @@ public class MonopolyFrame extends JFrame implements Observer {
 				//Insere no final
 				Main.game.getLuckDeck().add(card);
 			}
+			
+			Main.game.updateInterface();
 			
 		}
 	}
