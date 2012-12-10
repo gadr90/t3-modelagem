@@ -33,7 +33,7 @@ public class Game extends Observable {
 
 	private static final int PRISON_FEE = 50;
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
 	public static final int NUMBER_OF_PLAYERS = 6;
 	public static final int START_TILE_INDEX = 0;
@@ -59,8 +59,10 @@ public class Game extends Observable {
 		while (numberOfPlayers == 0) {
 			try {
 				numberOfPlayers = Integer.parseInt(JOptionPane.showInputDialog(message));
-				if (numberOfPlayers > 6)
+				if (numberOfPlayers > 6) {
+					numberOfPlayers = 0;
 					throw new IllegalArgumentException();
+				}
 		    } catch (NumberFormatException exception) {
 		    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
 		    }

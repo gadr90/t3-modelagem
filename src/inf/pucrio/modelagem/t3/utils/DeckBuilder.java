@@ -13,7 +13,7 @@ public class DeckBuilder {
 		LinkedList<LuckCard> deck = new LinkedList<LuckCard>();
 		LuckCard card;
 
-		/* Cartas de sorte /
+		/* Cartas de sorte */
 		card = new LuckCard(game, true, false, 25, "Sorte:\n A prefeitura mandou abrir uma nova avenida, para o que desapropriou vários prédios. Em consequência seu terreno valorizou.");
 		deck.add(card);
 		card = new LuckCard(game, true, false, 150, "Sorte:\n Houve um assalto à sua loja, mas você estava segurado.");
@@ -40,7 +40,7 @@ public class DeckBuilder {
 		deck.add(card);
 
 		
-		/* Cartas de revés /
+		/* Cartas de revés */
 		card = new LuckCard(game, false, false, -15, "Revés:\n Um amigo pediu-lhe um empréstimo. Você não pode recusar.");
 		deck.add(card);
 		card = new LuckCard(game, false, false, -25, "Revés:\n Você vai casar e está comprando um apartamento novo.");
@@ -75,7 +75,7 @@ public class DeckBuilder {
 		deck.add(card);
 		card = new LuckCard(game, true, false, 0, "Sorte:\n Você apostou com os parceiros deste jogo e ganhou.");
 		deck.add(card);
-		*/
+		
 
 		
 		/* Carta de saída livre da prisão - sorte */
