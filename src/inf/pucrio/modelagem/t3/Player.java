@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import inf.pucrio.modelagem.t3.card.CompanyCard;
 import inf.pucrio.modelagem.t3.card.MonopolyCard;
+import inf.pucrio.modelagem.t3.card.PropertyCard;
 import inf.pucrio.modelagem.t3.gui.PlayerView;
+import inf.pucrio.modelagem.t3.tile.CompanyTile;
+import inf.pucrio.modelagem.t3.tile.ITaxableTile;
 import inf.pucrio.modelagem.t3.tile.MonopolyTile;
+import inf.pucrio.modelagem.t3.tile.PropertyTile;
 
 public class Player {
 	
@@ -113,9 +118,58 @@ public class Player {
 	public void setDeck(List<MonopolyCard> deck) {
 		this.deck = deck;
 	}
+	
+	public List<ITaxableTile> getTaxableTiles() {
+		ArrayList<ITaxableTile> tiles = new ArrayList<ITaxableTile>();
+		
+		for(MonopolyCard c : this.getDeck()) {
+			if (c instanceof PropertyCard) {
+				tiles.add(((PropertyCard) c).getTile());
+			}
+			else if (c instanceof CompanyCard) {
+				tiles.add(((CompanyCard) c).getTile());
+			}
+		}
+		
+		return tiles;
+	}
 
-	public void addMoney(int value) {
+	public boolean addMoney(int value) {
+		List<ITaxableTile> sellableTiles = getTaxableTiles();
+		// Enquanto a transação resultar em saldo negativo, venda suas propriedades
+		while (this.money + value < 0 && sellableTiles.size() > 0) {
+			ITaxableTile tile = sellableTiles.get(0);
+			
+			// Company é vendida diretamente
+			if (tile instanceof CompanyTile) {
+				tile.sell();
+			}
+			// Property tem cada uma das suas construções vendidas antes de vender o terreno
+			else if (tile instanceof PropertyTile) {
+				PropertyTile ptile = (PropertyTile) tile;
+				// Tenta vender uma construção da propriedade
+				if (ptile.getCard().getBuiltHousesNumber() > 0) {
+					ptile.getCard().sellConstruction();
+				}
+				// Caso contrário, vende o terreno inteiro.
+				else {
+					ptile.sell();
+				}
+			}
+			sellableTiles = getTaxableTiles();
+		}
+		
 		this.money += value;
+		
+		// Jogador vendeu todas as suas posses e não conseguiu honrar a dívida. Sai do jogo.
+		if (this.money < 0) {
+			Main.game.playerGotBankrupt(this);
+			// Saldo restante negativo
+			return false;
+		}
+		
+		// Saldo restante positivo
+		return true;
 	}
 
 	public boolean isLuckCardDrawn() {

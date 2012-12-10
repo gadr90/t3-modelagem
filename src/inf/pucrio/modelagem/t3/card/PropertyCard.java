@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class PropertyCard extends MonopolyCard {
 
 	public static final int MAX_NUMBER_HOUSES = 4;
@@ -88,7 +90,8 @@ public class PropertyCard extends MonopolyCard {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
-		this.owner.getDeck().add(this);
+		if (this.owner != null)
+			this.owner.getDeck().add(this);
 	}
 
 	public int getBuiltHousesNumber() {
@@ -123,11 +126,24 @@ public class PropertyCard extends MonopolyCard {
 		boolean minimumHousesBuilt = checkMinimumHousesBuilt(likeColoredProperties, this.getBuiltHousesNumber());
 		
 		if (ownsLikeColoredProperties && minimumHousesBuilt && this.getBuiltHousesNumber() <= MAX_NUMBER_HOUSES) {
-			this.builtHousesNumber++;
-			this.getOwner().addMoney( - this.getConstructionValue());
+			if (this.getOwner().getMoney() > this.getConstructionValue()) {
+				this.builtHousesNumber++;
+				this.getOwner().addMoney( - this.getConstructionValue());
+			}
+			else {
+				JOptionPane.showMessageDialog(Main.frame, "Você não tem dinheiro suficiente para construir!");
+			}
 			return true;
 		}
 		return false;
+	}
+	
+	// Vende uma construção para o banco por metade do preço.
+	public void sellConstruction() {
+		if (this.getBuiltHousesNumber() > 0) {
+			this.getOwner().addMoney( this.getConstructionValue() / 2 );
+			this.builtHousesNumber--;
+		}
 	}
 
 	public String getLabel() {

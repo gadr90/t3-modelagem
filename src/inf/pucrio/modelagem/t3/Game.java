@@ -150,10 +150,7 @@ public class Game extends Observable {
 			currentPlayer.addTurnArrested();
 		}
 		
-		currentPlayerIndex++;
-		if (currentPlayerIndex == this.getPlayers().size())
-			currentPlayerIndex = 0;
-		
+		this.setCurrentPlayerIndex(this.getCurrentPlayerIndex() + 1);		
 		updateInterface();
 	}
 
@@ -196,7 +193,10 @@ public class Game extends Observable {
 	}
 
 	public void setCurrentPlayerIndex(int currentPlayerIndex) {
-		this.currentPlayerIndex = currentPlayerIndex;
+		if (currentPlayerIndex == this.getPlayers().size())
+			this.currentPlayerIndex = 0;
+		else
+			this.currentPlayerIndex = currentPlayerIndex;
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -273,5 +273,24 @@ public class Game extends Observable {
 			if (p.getPlayerName().equals(name)) return p;
 		
 		return null;
+	}
+
+
+	public void playerGotBankrupt(Player player) {
+		JOptionPane.showMessageDialog(Main.frame, "O jogador " + player.getPlayerName() + " não conseguiu honrar suas dívidas e faliu. Boa sorte da próxima vez!");
+		this.getPlayers().remove(player);
+		// Passa a vez para o próximo jogador.
+		this.setCurrentPlayerIndex(currentPlayerIndex + 1);
+		
+		this.checkEndGame();
+	}
+
+
+	// Condição de término do jogo
+	private void checkEndGame() {
+		if (this.getPlayers().size() == 1) {
+			JOptionPane.showMessageDialog(Main.frame, "Parabéns! Você venceu, "+ this.getPlayers().get(0).getPlayerName() +" !", "Vitória!", JOptionPane.PLAIN_MESSAGE);
+			System.exit(0);
+		}
 	}
 }

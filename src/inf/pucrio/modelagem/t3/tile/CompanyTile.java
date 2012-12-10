@@ -21,7 +21,12 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 		if (this.getOwner() == null) return;
 		
 		int rent = (this.getCard().getRentalValueFactor() * player.getCurrentRoll());
-		player.addMoney( - rent);
+		
+		// Se o jogador faliu ao pagar esse aluguél, ele não pôde pagar o aluguel todo.
+		if ( ! player.addMoney( - rent)) {
+			// Retire do dinheiro enviado para o dono o quanto o jogador ficou devendo (Valor negativo).
+			rent += player.getMoney();
+		}
 		this.getOwner().addMoney(rent);
 	}
 
@@ -57,6 +62,13 @@ public class CompanyTile extends MonopolyTile implements ITaxableTile {
 
 	public CompanyCard getCard() {
 		return card;
+	}
+	
+	@Override
+	public void sell() {
+		this.getOwner().addMoney( this.getCard().getSaleValue() / 2 );
+		this.getOwner().getDeck().remove(this.card);
+		this.card.setOwner(null);
 	}
 
 }
