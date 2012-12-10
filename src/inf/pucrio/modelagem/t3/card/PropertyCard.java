@@ -18,13 +18,7 @@ public class PropertyCard extends MonopolyCard {
 	private int saleValue;
 	private int constructionValue;
 	private int mortgageValue;
-	private int noConstructionRent;
-	private int oneHouseRent;
-	private int twoHousesRent;
-	private int threeHousesRent;
-	private int fourHousesRent;
-	private int hotelRent;
-	private int builtHousesNumber;
+	private int builtHousesNumber = 0;
 	private PropertyTile tile;
 	private Player owner;
 	private HashMap<Integer, Integer> rentMap;
@@ -88,54 +82,6 @@ public class PropertyCard extends MonopolyCard {
 		this.mortgageValue = mortgageValue;
 	}
 
-	public int getNoConstructionRent() {
-		return noConstructionRent;
-	}
-
-	public void setNoConstructionRent(int noConstructionRent) {
-		this.noConstructionRent = noConstructionRent;
-	}
-
-	public int getOneHouseRent() {
-		return oneHouseRent;
-	}
-
-	public void setOneHouseRent(int oneHouseRent) {
-		this.oneHouseRent = oneHouseRent;
-	}
-
-	public int getTwoHousesRent() {
-		return twoHousesRent;
-	}
-
-	public void setTwoHousesRent(int twoHousesRent) {
-		this.twoHousesRent = twoHousesRent;
-	}
-
-	public int getThreeHousesRent() {
-		return threeHousesRent;
-	}
-
-	public void setThreeHousesRent(int threeHousesRent) {
-		this.threeHousesRent = threeHousesRent;
-	}
-
-	public int getFourHousesRent() {
-		return fourHousesRent;
-	}
-
-	public void setFourHousesRent(int fourHousesRent) {
-		this.fourHousesRent = fourHousesRent;
-	}
-
-	public int getHotelRent() {
-		return hotelRent;
-	}
-
-	public void setHotelRent(int hotelRent) {
-		this.hotelRent = hotelRent;
-	}
-
 	public Player getOwner() {
 		return owner;
 	}
@@ -147,6 +93,10 @@ public class PropertyCard extends MonopolyCard {
 
 	public int getBuiltHousesNumber() {
 		return builtHousesNumber;
+	}
+	
+	public void setBuildHousesNumber(int builtHousesNumber) {
+		this.builtHousesNumber = builtHousesNumber;
 	}
 	
 	public boolean playerOwnsAllProperties(Player player, List<PropertyTile> properties) {

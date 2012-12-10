@@ -45,6 +45,12 @@ public class PropertyTile extends MonopolyTile implements ITaxableTile {
 		
 		// É uma venda
 		if (this.getOwner() != null) {
+			// Trata o caso do terreno ter construções. Todas devem ser vendidas para o banco pela metade do preço para que depois a negociação seja concretizada.
+			while(this.getCard().getBuiltHousesNumber() > 0) {
+				this.getOwner().addMoney(this.getCard().getRentMap().get(this.getCard().getBuiltHousesNumber())/2);
+				this.getCard().setBuildHousesNumber(this.getCard().getBuiltHousesNumber() - 1);
+			}
+			
 			this.getOwner().getDeck().remove(this.card);
 			this.getOwner().addMoney( agreedPrice );
 		}
