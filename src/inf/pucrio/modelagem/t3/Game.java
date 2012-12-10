@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Queue;
 
+import javax.swing.JOptionPane;
+
 /** 
  * Controlador do Jogo
  * @author Guilherme
@@ -52,9 +54,24 @@ public class Game extends Observable {
 		Color[] availableColors = {Color.BLUE, Color.CYAN, Color.GREEN, Color.magenta, Color.RED, Color.YELLOW};
 		String[] colorNames = {"Azul", "Ciano", "Verde", "Magenta", "Vermelho", "Amarelo"};
 		int i = 0;
+		int numberOfPlayers = 0;
+		String message = "Quantas pessoas vão jogar? Máximo: 6";
+		while (numberOfPlayers == 0) {
+			try {
+				numberOfPlayers = Integer.parseInt(JOptionPane.showInputDialog(message));
+				if (numberOfPlayers > 6)
+					throw new IllegalArgumentException();
+		    } catch (NumberFormatException exception) {
+		    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero inteiro!");
+		    }
+			catch (IllegalArgumentException exception2) {
+		    	JOptionPane.showMessageDialog(Main.frame, "Digite um numero menor que  ou igual a 6!");
+			}
+		}			
+		
 		//Adiciona os players
-		for (Color c : availableColors) {
-			Player player = new Player(c, colorNames[i++], this);
+		for (i = 0; i < numberOfPlayers; i++) {
+			Player player = new Player(availableColors[i], colorNames[i], this);
 			players.add(player);
 			Point p = PositionUtils.getPositionForIndex(0, players.indexOf(player));
 			player.getView().setBounds(p.x, p.y, 20, 20);
@@ -134,7 +151,7 @@ public class Game extends Observable {
 		}
 		
 		currentPlayerIndex++;
-		if (currentPlayerIndex > 5)
+		if (currentPlayerIndex == this.getPlayers().size())
 			currentPlayerIndex = 0;
 		
 		updateInterface();
@@ -203,7 +220,7 @@ public class Game extends Observable {
 	}
 	
 	public Player getLastPlayer() {
-		return this.players.get(this.currentPlayerIndex > 0 ? this.currentPlayerIndex - 1 : 5);
+		return this.players.get(this.currentPlayerIndex > 0 ? this.currentPlayerIndex - 1 : this.getPlayers().size() - 1);
 	}
 
 	public int getCurrentRoll1() {
